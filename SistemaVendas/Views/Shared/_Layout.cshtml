@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body>
+<body onload="CarregaUsuarioLogado()">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -25,6 +25,13 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Login">Sign In</a>
                         </li>
                     </ul>
+
+                    @* using e inject para poder usar o conteudo da variavel nomeUsuarioLogado *@
+                    @using Microsoft.AspNetCore.Http
+                    @inject IHttpContextAccessor HttpContextAccessor
+                    <div id="nomeUsuarioLogado">
+
+                    </div>
                 </div>
             </div>
         </nav>
@@ -44,5 +51,21 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    @* @RenderSection("Scripts", required:  false) *@
+    <script>
+        function CarregaUsuarioLogado() {
+            var nome = '@HttpContextAccessor.HttpContext.Session.GetString("nomeUsuarioLogado")'
+
+            if (nome != '') {
+                var divNome = document.getElementById("nomeUsuarioLogado");
+                divNome.innerHTML = "Olá " + nome + ". " + " <a href='../Home/Login/0'> (Sair)</a>";
+                divNome.style = "padding-bottom:10px;";
+            }
+            else { //Se o user não estiver logado, não consegue abrir outras telas dos sistema for a sempre voltar pra home/login
+                window.location.href = '../Home/Login'
+            }
+        }
+    </script>
 </body>
 </html>

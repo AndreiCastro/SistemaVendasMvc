@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SistemaVendas.Models;
+using SistemaVendas.Repository;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -24,8 +25,17 @@ namespace SistemaVendas.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(int? id)
         {
+            //Coloquei esse parametro como nulo, pois no _Layout.cshtml quando clicar no link sair limpa a sessão do user logado
+            if(id != null)
+            {
+                if(id == 0)
+                {
+                    HttpContext.Session.SetString("idUsuarioLogado", string.Empty);
+                    HttpContext.Session.SetString("nomeUsuarioLogado", string.Empty);
+                }
+            }
             return View();
         }
 
@@ -39,8 +49,8 @@ namespace SistemaVendas.Controllers
                     var userLogin = repository.ValidarLogin(login);
                     if (userLogin != null)
                     {
-                        HttpContext.Session.SetString("IdUsuarioLogado", userLogin.Id.ToString());
-                        HttpContext.Session.SetString("NomeUsuarioLogado", userLogin.Nome);
+                        HttpContext.Session.SetString("idUsuarioLogado", userLogin.Id.ToString());
+                        HttpContext.Session.SetString("nomeUsuarioLogado", userLogin.Nome);
                         return RedirectToAction("Menu");
                     }
                     else

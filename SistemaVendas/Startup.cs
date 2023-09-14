@@ -33,13 +33,11 @@ namespace SistemaVendas
                AddDbContext<Context>(c => c.UseSqlServer(Configuration.GetConnectionString("conexao")));
             services.AddScoped<ILoginRepository, LoginRepository>();
 
-            /*
-            //Esses services foram para usar o session no projeto
-            services.AddMvc().AddSessionStateTempDataProvider();
-            services.AddMvc(options => options.EnableEndpointRouting = false);
+
+            //Esses services foram para usar o session no projeto            
             services.AddSession();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            */
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,17 +60,13 @@ namespace SistemaVendas
 
             app.UseAuthorization();
             
-            /*
-            app.UseMvc();
-            //app.UseMvcWithDefaultRoute();
-            app.UseSession(); //Para utilizar os atributos de retorno do DB na session.
-            */
+            app.UseSession(); //Para utilizar os atributos de retorno do DB na session.            
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Login}/{id?}");
             });
         }
     }

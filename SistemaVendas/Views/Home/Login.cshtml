@@ -2,60 +2,76 @@
 
 @{
     ViewData["Title"] = "Login";
+    Layout = null; //Cancela o uso do Layout template
 }
 
-<div class="login-form">
-    <form asp-controller="Home" asp-action="Login" method="post">
-        <!-- Email input -->
-        <div class="form-outline mb-4">
-            <input type="email" class="form-control" asp-for="Email" placeholder="E-mail" />
-            @Html.ValidationMessageFor(x => x.Email)
-            @* <span asp-validation-for="Email" class="text-danger"></span>
-            Existe essa forma de usar a validação da model tbme acredito ser mais facil, pois ja usa o bootstrap no texto para colocar a cor *@
-        </div>
+@* Precisei referenciar esses dois abaixo, pois como cancelei o Layout por causa do loop infito que estava acontecendo, tive que referencia-los *@
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" />
 
-        <!-- Password input -->
-        <div class="form-outline mb-4">
-            <input type="password" class="form-control" asp-for="Senha" placeholder="Senha" />
-            @Html.ValidationMessageFor(x => x.Senha)
-        </div>
 
-        @{
-            try
-            {
-                if (TempData["ErrorLogin"] != null)
-                {
-                    var erro = TempData["ErrorLogin"].ToString();
-                    <h4 class="text-danger">@erro</h4>
-                }
-            }
-            catch
-            {
+<main class="login-form">
+    <div class="cotainer">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Sign In</div>
+                    <div class="card-body">
+                        <form asp-controller="Home" asp-action="Login" method="post">
+                            <div class="form-group row">
+                                <label for="email_address" class="col-md-4 col-form-label text-md-right">E-Mail</label>
+                                <div class="col-md-6">
+                                    <input type="email" class="form-control" asp-for="Email" />
+                                    @Html.ValidationMessageFor(x => x.Email)
+                                    @* Existe essa forma de usar a validação da model tbm e acredito ser mais facil, pois ja usa o
+                                    bootstrap no texto para colocar a cor
+                                    <span asp-validation-for="Email" class="text-danger"></span> *@
+                                </div>
+                            </div>
 
-            }
-        }
-        <!-- 2 column grid layout for inline styling -->
-        <div class="row mb-4">
-            <div class="col d-flex justify-content-center">
-                <!-- Checkbox -->
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
-                    <label class="form-check-label" for="form2Example31"> Lembre-me </label>
+                            <div class="form-group row">
+                                <label for="password" class="col-md-4 col-form-label text-md-right">Senha</label>
+                                <div class="col-md-6">
+                                    <input type="password" class="form-control" asp-for="Senha">
+                                    <span asp-validation-for="Senha" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6 offset-md-4">
+                                    @{
+                                        if (TempData["ErrorLogin"] != null)
+                                        {
+                                            var erro = TempData["ErrorLogin"].ToString();
+                                            <h5 class="text-danger">@erro</h5>
+                                        }
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-6 offset-md-4">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="remember"> Lembre-me
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-6 offset-md-4">
+                                    <button type="submit" class="btn btn-primary">Entrar</button>
+                                    <a href="#" class="btn btn-link">Esqueceu sua senha?</a>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-6 offset-md-4">
+                                    <p>Não é cadastrado? <a href="#!">Cadastre-se</a></p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-
-            <div class="col">
-                <!-- Simple link -->
-                <a href="#!">Esqueceu a senha?</a>
-            </div>
         </div>
-
-        <!-- Submit button -->
-        <button type="submit" class="btn btn-primary btn-block mb-4">Entrar</button>
-
-        <!-- Register buttons -->
-        <div class="text-center">
-            <p>Não é cadastrado? <a href="#!">Cadastre-se</a></p>
-        </div>
-    </form>
-</div>
+    </div>
+</main>
