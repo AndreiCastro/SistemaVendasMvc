@@ -8,16 +8,14 @@ namespace SistemaVendas.Repository
 {
     public class LoginRepository : ILoginRepository
     {
-        private readonly Context context;
-        public LoginRepository(Context _context)
+        private readonly Context _context;
+        public LoginRepository(Context context)
         {
-            this.context = _context;               
+            _context = context;               
         }
         public LoginModel ValidarLogin(LoginModel login)
         {
-            var userLogin = context.Vendedores.AsNoTracking().FirstOrDefault(l => l.Email == login.Email && l.Senha == login.Senha);
-
-            return userLogin;
+            return _context.Vendedores.AsNoTracking().FirstOrDefault(l => l.Email == login.Email && l.Senha == login.Senha);
         }
     }
 }

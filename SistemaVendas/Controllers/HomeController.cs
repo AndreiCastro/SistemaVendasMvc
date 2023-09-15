@@ -13,17 +13,25 @@ namespace SistemaVendas.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILoginRepository repository;
-        public HomeController(ILoginRepository _repository)
-        {
-            this.repository = _repository;
-        }
+        #region Atributos
+        private readonly ILoginRepository _repository;
+        #endregion Atributos
 
+        #region Construtor
+        public HomeController(ILoginRepository repository)
+        {
+            _repository = repository;
+        }
+        #endregion Construtor
+
+        #region Menu
         public IActionResult Menu()
         {
             return View();
         }
+        #endregion Menu
 
+        #region Login
         [HttpGet]
         public IActionResult Login(int? id)
         {
@@ -46,7 +54,7 @@ namespace SistemaVendas.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var userLogin = repository.ValidarLogin(login);
+                    var userLogin = _repository.ValidarLogin(login);
                     if (userLogin != null)
                     {
                         HttpContext.Session.SetString("idUsuarioLogado", userLogin.Id.ToString());
@@ -66,16 +74,14 @@ namespace SistemaVendas.Controllers
 
             return View("Login", login);
         }
+        #endregion Login
 
+        #region Home
         public IActionResult Index()
         {
             return View();
         }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+        #endregion  Home
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

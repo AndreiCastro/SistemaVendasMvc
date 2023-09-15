@@ -2,7 +2,8 @@
 
 @{
     ViewData["Title"] = "Login";
-    Layout = null; //Cancela o uso do Layout template
+    Layout = null; 
+    //Cancela o uso do Layout template, pq fiz a validação no _Layout para retornar para essa pagina de Login senão tiver usuário logado
 }
 
 @* Precisei referenciar esses dois abaixo, pois como cancelei o Layout por causa do loop infito que estava acontecendo, tive que referencia-los *@

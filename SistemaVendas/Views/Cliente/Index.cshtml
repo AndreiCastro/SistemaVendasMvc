@@ -1,0 +1,49 @@
+﻿@model List<ClienteModel>
+
+
+@{
+    ViewData["Title"] = "Clientes";
+}
+
+<div class="cotainer">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="d-grid gap-2 d-md-flex justify-context-md-start">
+                <a class="btn btn-primary" role="button" asp-controller="Cliente" asp-action="Add">Adicionar novo cliente</a>
+            </div>
+            <br />
+
+            <div class="text-center">
+                <h1 class="display-4">Lista de Clientes</h1>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">CPF/CNPJ</th>
+                        <th scope="col">E-mail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var cliente in Model)
+                        {
+                            <tr>
+                                <th scope="row">@cliente.Id</th>
+                                <td>@cliente.Nome</td>
+                                <td>@cliente.CpfCnpj</td>
+                                <td>@cliente.Email</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,55 @@
+﻿@model ClienteModel
+
+@{
+    ViewData["Title"] = "Cadastro Cliente";
+}
+<meta charset="utf-8" />
+
+<div class="cotainer">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="text-center">
+                <h1 class="display-4">Cadastrar Cliente</h1>
+            </div>
+
+            <form class="row g-3" asp-controller="Cliente" asp-action="Post" method="Post">
+                <div class="col-12">
+                    <label for="text" class="col-form-label text-md-left">Nome</label>
+                    <input type="text" class="form-control" asp-for="Nome" placeholder="Insira nome" />
+                    <span asp-validation-for="Nome" class="text-danger"></span>
+                </div>
+
+                <div class="col-12">
+                    <label for="email_address" class="col-form-label text-md-left">E-mail</label>
+                    <input type="email" class="form-control" asp-for="Email" placeholder="Insira e-mail" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="col-6">
+                    <label for="number" class="col-form-label text-md-left">@Html.DisplayNameFor(m => m.CpfCnpj)</label>
+                    <input type="number" class="form-control" asp-for="CpfCnpj" placeholder="Insira somente números" />
+                    <span asp-validation-for="CpfCnpj" class="text-danger"></span>
+                </div>
+
+                <div class="col-6">
+                    <label for="text" class="col-form-label text-md-left">Senha</label>
+                    <input type="text" class="form-control" asp-for="Senha" placeholder="Insira senha" />
+                    <span asp-validation-for="Senha" class="text-danger"></span>
+                </div>
+                <br />
+                <br />
+                <br />
+                <br />
+
+                <div class="col-6">
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                    <a class="btn btn-secondary" role="button" asp-controller="Cliente" asp-action="Index">Voltar</a>
+                </div>
+            </form>
+            <br />
+
+        </div>
+    </div>
+</div>
+

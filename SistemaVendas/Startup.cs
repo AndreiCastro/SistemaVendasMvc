@@ -31,7 +31,9 @@ namespace SistemaVendas
 
             services.AddEntityFrameworkSqlServer().
                AddDbContext<Context>(c => c.UseSqlServer(Configuration.GetConnectionString("conexao")));
+            
             services.AddScoped<ILoginRepository, LoginRepository>();
+            services.AddScoped<IClienteRepository, ClienteRepository>();
 
 
             //Esses services foram para usar o session no projeto            
