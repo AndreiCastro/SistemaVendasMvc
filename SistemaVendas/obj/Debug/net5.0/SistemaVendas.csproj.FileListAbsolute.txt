@@ -393,3 +393,5 @@ C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\SistemaVendas.genruntimeconfig.cache
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\ref\SistemaVendas.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Cliente\Add.cshtml.g.cs
+C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Cliente\Update.cshtml.g.cs
+C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Cliente\Delete.cshtml.g.cs

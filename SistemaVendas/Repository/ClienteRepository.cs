@@ -15,29 +15,34 @@ namespace SistemaVendas.Repository
             _context = context;
         }
 
+        public List<ClienteModel> GetAllClientes()
+        {
+            return _context.Clientes.AsNoTracking().OrderBy(x => x.Nome).ToList();
+        }
+
+        public ClienteModel GetCliente(int id)
+        {
+            return _context.Clientes.AsNoTracking().FirstOrDefault(x => x.Id == id);
+        }
+
         public void Add(ClienteModel cliente)
         {
             _context.Add(cliente);
         }
 
-        //public void Delete(ClienteModel cliente)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
-
-        public List<ClienteModel> GetAllClientes()
+        public void Delete(ClienteModel cliente)
         {
-            return _context.Clientes.AsNoTracking().OrderBy(x => x.Nome).ToList();            
+            _context.Remove(cliente);
+        }
+
+        public void Update(ClienteModel cliente)
+        {
+            _context.Update(cliente);
         }
 
         public bool SaveChanges()
         {
             return (_context.SaveChanges() > 0);
         }
-
-        //public void Update(ClienteModel cliente)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
     }
 }

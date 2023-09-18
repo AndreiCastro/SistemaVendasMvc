@@ -28,6 +28,7 @@
                     </tr>
                 </thead>
                 <tbody>
+
                     @if (Model != null && Model.Any())
                     {
                         foreach (var cliente in Model)
@@ -37,9 +38,16 @@
                                 <td>@cliente.Nome</td>
                                 <td>@cliente.CpfCnpj</td>
                                 <td>@cliente.Email</td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a role="button" class="btn btn-primary" asp-route-id="@cliente.Id" asp-controller="Cliente" asp-action="Update">Editar</a>
+                                        <a role="button" class="btn btn-danger" asp-route-id="@cliente.Id" asp-controller="Cliente" asp-action="Delete">Excluir</a>
+                                    </div>
+                                </td>
                             </tr>
                         }
                     }
+
                 </tbody>
             </table>
 

@@ -1,0 +1,53 @@
+﻿@model ClienteModel
+
+@{
+    ViewData["Title"] = "Atualizar Cliente";
+}
+<meta charset="utf-8" />
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="text-center">
+                <h1 class="display-4">Editar Cliente</h1>
+            </div>
+
+            <form class="row g-3" asp-controller="Cliente" asp-action="Put" method="Post">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="col-12">
+                    <label for="nome" class="form-label">Nome</label>
+                    <input type="text" class="form-control" asp-for="Nome" />
+                    <span asp-validation-for="Nome" class="text-danger"></span>
+                </div>
+
+                <div class="col-12">
+                    <label for="email" class="form-label">@Html.DisplayNameFor(m => m.Email)</label>
+                    <input type="text" class="form-control" asp-for="Email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="col-6">
+                    <label for="cnpjcpf" class="form-label">@Html.DisplayNameFor(m => m.CpfCnpj)</label>
+                    <input type="number" class="form-control" asp-for="CpfCnpj" />
+                    <span asp-validation-for="CpfCnpj" class="text-danger"></span>
+                </div>
+
+                <div class="col-6">
+                    <label for="senha" class="form-label">Senha</label>
+                    <input type="text" class="form-control" asp-for="Senha" />
+                    <span asp-validation-for="Senha" class="text-danger"></span>
+                </div>
+                <br />
+                <br />
+                <br />
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Editar</button>
+                    <a class="btn btn-secondary" role="button" asp-controller="Cliente" asp-action="Index">Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

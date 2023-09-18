@@ -21,7 +21,7 @@ namespace SistemaVendas.Models
         [DisplayName("E-mail")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Senha é obrigatória")]
+        [Required(ErrorMessage = "Senha é obrigatória.")]
         [StringLength(30, MinimumLength = 3, ErrorMessage = "Campo {0} deve entre {2} a {1} caracteres.")]
         public string Senha { get; set; }
     }

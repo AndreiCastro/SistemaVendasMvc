@@ -7,12 +7,14 @@ namespace SistemaVendas.Repository
     {
         List<ClienteModel> GetAllClientes();
 
+        ClienteModel GetCliente(int id);
+
         void Add(ClienteModel cliente);
 
-        //void Update(ClienteModel cliente);
+        void Delete(ClienteModel cliente);
 
-        //void Delete(ClienteModel cliente);
-
+        void Update(ClienteModel cliente);
+        
         bool SaveChanges();
     }
 }
