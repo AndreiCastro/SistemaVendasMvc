@@ -1,0 +1,28 @@
+﻿@model VendedorModel
+
+@{
+    ViewData["Title"] = "Excluir Vendedor";
+}
+<meta charset="utf-8" />
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="text-center">
+                <h4 class="display-4">Excluir Vendedor</h4>
+            </div>
+
+            <div class="text-left">
+                <h3>Deseja realmente excluir o vendedor: <b> @Html.DisplayFor(m => m.Nome)</b> ?</h3>
+            </div>
+
+            <form class="row g-3">
+                <div class="col-6">
+                    <a class="btn btn-primary" role="button" asp-controller="Vendedor" asp-action="DeleteConfirm" asp-route-idVendedor="@Model.Id">Confirmar</a>
+                    <a class="btn btn-secondary" role="button" asp-controller="Vendedor" asp-action="Index">Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

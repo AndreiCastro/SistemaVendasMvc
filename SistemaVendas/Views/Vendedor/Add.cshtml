@@ -1,0 +1,53 @@
+﻿@model VendedorModel
+
+@{
+    ViewData["Title"] = "Adicionar Vendedor";
+}
+<meta charset="utf-8" />
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="text-center">
+                <h1 class="display-4">Adicionar Vendedor</h1>
+            </div>
+
+            <form class="row g-3" asp-controller="Vendedor" asp-action="Post" method="Post">
+                <div class="col-12">
+                    <label for="text" class="form-label">Nome</label>
+                    <input type="text" class="form-control" asp-for="Nome" placeholder="Inseri o nome"/>
+                    <span asp-validation-for="Nome" class="text-danger"></span>
+                </div>
+
+                <div class="col-12">
+                    <label form="text" class="form-label">@Html.DisplayNameFor(m => m.Email)</label>
+                    <input type="text" class="form-control" asp-for="Email" placeholder="Insira o e-mail" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="col-6">
+                    <label form="text" class="form-label">Senha</label>
+                    <input type="password" class="form-control" asp-for="Senha" placeholder="Insira uma senha" />
+                    <span asp-validation-for="Senha" class="text-danger"></span>
+                </div>
+
+                <div class="col-6">
+                    <label for="text" class="col-form-label">Confirmar Senha</label>
+                    <input type="password" class="form-control" asp-for="ComparaSenha" />
+                    <span asp-validation-for="ComparaSenha" class="text-danger"></span>
+                </div>
+                <br />
+                <br />
+                <br />
+                <br />
+
+                <div class="col-6">
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                    <a class="btn btn-secondary" role="button" asp-controller="Vendedor" asp-action="Index">Voltar</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

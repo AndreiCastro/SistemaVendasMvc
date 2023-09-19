@@ -34,7 +34,7 @@ namespace SistemaVendas
             
             services.AddScoped<ILoginRepository, LoginRepository>();
             services.AddScoped<IClienteRepository, ClienteRepository>();
-
+            services.AddScoped<IVendedorRepository, VendedorRepository>();
 
             //Esses services foram para usar o session no projeto            
             services.AddSession();

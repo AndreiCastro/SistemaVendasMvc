@@ -9,8 +9,10 @@ namespace SistemaVendas.Data
         {
         }
 
-        public DbSet<LoginModel> Vendedores { get; set; }
+        //public DbSet<LoginModel> Vendedores { get; set; }
 
         public DbSet<ClienteModel> Clientes { get; set; }
+
+        public DbSet<VendedorModel> Vendedores { get; set; }
     }
 }

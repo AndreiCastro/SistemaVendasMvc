@@ -15,6 +15,7 @@ namespace SistemaVendas.Repository
             _context = context;
         }
 
+        #region Selects
         public List<ClienteModel> GetAllClientes()
         {
             return _context.Clientes.AsNoTracking().OrderBy(x => x.Nome).ToList();
@@ -24,6 +25,7 @@ namespace SistemaVendas.Repository
         {
             return _context.Clientes.AsNoTracking().FirstOrDefault(x => x.Id == id);
         }
+        #endregion Selects
 
         public void Add(ClienteModel cliente)
         {

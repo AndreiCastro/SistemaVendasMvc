@@ -14,12 +14,12 @@
             </div>
             
             <div class="text-left">
-                <h3>Deseja realmente exluir o cliente: <b> @Html.DisplayFor(m => m.Nome)</b> ?</h3>
+                <h3>Deseja realmente excluir o cliente: <b> @Html.DisplayFor(m => m.Nome)</b> ?</h3>
             </div>
 
             <form class="row g-3">
                 <div class="col-6">
-                    <a class="btn btn-primary" role="button" asp-route-id="@Model.Id" asp-controller="Cliente" asp-action="DeleteConfirm">Confirmar</a>
+                    <a class="btn btn-primary" role="button" asp-controller="Cliente" asp-action="DeleteConfirm" asp-route-idCliente="@Model.Id">Confirmar</a>
                     <a class="btn btn-secondary" role="button" asp-controller="Cliente" asp-action="Index">Voltar</a>
                 </div>
             </form>

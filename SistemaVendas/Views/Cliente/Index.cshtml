@@ -1,9 +1,9 @@
 ﻿@model List<ClienteModel>
 
-
 @{
     ViewData["Title"] = "Clientes";
 }
+<meta charset="utf-8" />
 
 <div class="cotainer">
     <div class="row justify-content-center">
@@ -40,8 +40,8 @@
                                 <td>@cliente.Email</td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a role="button" class="btn btn-primary" asp-route-id="@cliente.Id" asp-controller="Cliente" asp-action="Update">Editar</a>
-                                        <a role="button" class="btn btn-danger" asp-route-id="@cliente.Id" asp-controller="Cliente" asp-action="Delete">Excluir</a>
+                                        <a class="btn btn-primary" role="button" asp-controller="Cliente" asp-action="Update" asp-route-idCliente="@cliente.Id">Editar</a>
+                                        <a class="btn btn-danger" role="button" asp-controller="Cliente" asp-action="Delete" asp-route-idCliente="@cliente.Id">Excluir</a>
                                     </div>
                                 </td>
                             </tr>

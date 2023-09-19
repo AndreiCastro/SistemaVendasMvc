@@ -22,8 +22,15 @@ namespace SistemaVendas.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var clientes = _repository.GetAllClientes();
-            return View(clientes);
+            try
+            {
+                var clientes = _repository.GetAllClientes();
+                return View(clientes);
+            }
+            catch
+            {
+                return View();                
+            }            
         }
 
         #region Add
@@ -41,33 +48,35 @@ namespace SistemaVendas.Controllers
                 if (ModelState.IsValid)
                 {
                     _repository.Add(cliente);
-                    if (_repository.SaveChanges())
-                    {
-                        return RedirectToAction("Index");
-                    }
+                    if (_repository.SaveChanges())                    
+                        return RedirectToAction("Index");  
+                    
                 }
-
                 return View("Add", cliente);
             }
-            catch (System.Exception)
+            catch
             {
-                return RedirectToAction("Index");
+                return View();
             }
         }
         #endregion Add
 
         #region Update
-        public IActionResult Update(int id)
+        public IActionResult Update(int idCliente) //Este parametro tem que ter o mesmo nome que colocou asp-route-"idCliente" na Index 
         {
-            var cliente = new ClienteModel();
+            
             try
             {
-                cliente = _repository.GetCliente(id);
+                var cliente = _repository.GetCliente(idCliente);
+                if(cliente != null)
+                    return View(cliente);
+
+                return View();
             }
             catch 
-            {}
-
-            return View(cliente);
+            {
+                return View();
+            }
         }
 
         [HttpPost]
@@ -83,25 +92,24 @@ namespace SistemaVendas.Controllers
 
                     if(_repository.SaveChanges())
                         return RedirectToAction("Index");
-                }
-                
+                }                
                 return View("Update", cliente);
             } 
-            catch (System.Exception)
+            catch
             {
-                return RedirectToAction("Index");
+                return View();
             }           
             
         }
         #endregion Update
 
         #region Delete
-        public IActionResult Delete(int id) 
+        public IActionResult Delete(int idCliente) 
         {
             var cliente = new ClienteModel();
             try
             {
-                cliente = _repository.GetCliente(id);
+                cliente = _repository.GetCliente(idCliente);
             }
             catch
             {
@@ -110,7 +118,7 @@ namespace SistemaVendas.Controllers
             return View(cliente);        
         }
 
-        public IActionResult DeleteConfirm(int id)
+        public IActionResult DeleteConfirm(int idCliente)
         {
             try
             {

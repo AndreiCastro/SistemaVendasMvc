@@ -13,7 +13,7 @@ namespace SistemaVendas.Repository
         {
             _context = context;               
         }
-        public LoginModel ValidarLogin(LoginModel login)
+        public VendedorModel ValidarLogin(VendedorModel login)
         {
             return _context.Vendedores.AsNoTracking().FirstOrDefault(l => l.Email == login.Email && l.Senha == login.Senha);
         }

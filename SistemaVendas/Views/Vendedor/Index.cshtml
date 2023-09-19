@@ -1,0 +1,54 @@
+﻿@model List<VendedorModel>
+
+@{
+    ViewData["Title"] = "Vendedor";
+}
+<meta charset="utf-8" />
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="d-grid gap-2 d-md-flex justify-context-md-start">
+                <a class="btn btn-primary" role="button" asp-controller="Vendedor" asp-action="Add">Adicionar Vendedor</a>
+            </div>
+            <br />
+
+            <div class="text-center">
+                <h4 class="display-4">Lista de Vendedores</h4>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">E-mail</th >
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @if(Model != null && Model.Any())
+                    {
+                        foreach (var vendedor in Model)
+                        {
+                            <tr>
+                                <th scope="row">@vendedor.Id</th>
+                                <td>@vendedor.Nome</td>
+                                <td>@vendedor.Email</td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a class="btn btn-primary" role="button" asp-controller="Vendedor" asp-action="Update" asp-route-idVendedor="@vendedor.Id">Editar</a>
+                                        <a class="btn btn-danger" role="button" asp-controller="Vendedor" asp-action="Delete" asp-route-idVendedor="@vendedor.Id">Excluir</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
