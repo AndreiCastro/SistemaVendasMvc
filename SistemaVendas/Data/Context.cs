@@ -14,5 +14,7 @@ namespace SistemaVendas.Data
         public DbSet<ClienteModel> Clientes { get; set; }
 
         public DbSet<VendedorModel> Vendedores { get; set; }
+
+        public DbSet<ProdutoModel> Produtos { get; set; }
     }
 }

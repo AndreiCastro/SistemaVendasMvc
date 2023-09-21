@@ -1,0 +1,59 @@
+﻿@model List<ProdutoModel>;
+
+@{
+    ViewData["Title"] = "Produtos";
+}
+
+<meta charset="utf-8" />
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="d-grid gap-2 d-md-flex justify-context-md-start">
+                <a class="btn btn-primary" role="button" asp-controller="Produto" asp-action="Add">Adicionar Produto</a>
+            </div>
+            <br />
+
+            <div class="text-center">
+                <h4 class="display-4">Lista de Produtos</h4>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Descrição</th>
+                        <th scope="col">Preço</th>
+                        <th scope="col">Quantidade</th>
+                        <th scope="col">Unidade Medida</th>
+                        <th scope="col">Foto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null & Model.Any())
+                    {
+                        foreach (var produto in Model)
+                        {
+                            <tr>
+                                <th scope="col">@produto.Id</th>
+                                <td>@produto.Nome</td>
+                                <td>@produto.Descricao</td>
+                                <td>@produto.Preco_Unitario</td>
+                                <td>@Convert.ToInt32(produto.Quantidade_Estoque)</td>
+                                <td>@produto.Unidade_Medida</td>
+                                <td><img src="@produto.Link_Foto" width="150" height="150" /></td>
+                                <td>
+                                    <div class="btn-group" role="button">
+                                        <a class="btn btn-primary" role="button" asp-route-idProduto="@produto.Id" asp-controller="Produto" asp-action="Update">Editar</a>
+                                        <a class="btn btn-danger" role="button" asp-route-idProduto="@produto.Id" asp-controller="Produto" asp-action="Delete">Excluir</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

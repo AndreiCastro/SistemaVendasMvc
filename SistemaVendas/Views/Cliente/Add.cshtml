@@ -15,31 +15,31 @@
 
             <form class="row g-3" asp-controller="Cliente" asp-action="Post" method="Post">
                 <div class="col-12">
-                    <label for="text" class="form-label">Nome</label>
+                    <label for="text" class="col-form-label">Nome</label>
                     <input type="text" class="form-control" asp-for="Nome" placeholder="Insira nome" />
                     <span asp-validation-for="Nome" class="text-danger"></span>
                 </div>
 
                 <div class="col-12">
-                    <label for="email_address" class="form-label">@Html.DisplayNameFor(m => m.Email)</label>
+                    <label for="email_address" class="col-form-label">@Html.DisplayNameFor(m => m.Email)</label>
                     <input type="email" class="form-control" asp-for="Email" placeholder="Insira e-mail" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
 
                 <div class="col-12">
-                    <label for="number" class="form-label">@Html.DisplayNameFor(m => m.CpfCnpj)</label>
+                    <label for="number" class="col-form-label">@Html.DisplayNameFor(m => m.CpfCnpj)</label>
                     <input type="number" class="form-control" asp-for="CpfCnpj" placeholder="Insira somente números" />
                     <span asp-validation-for="CpfCnpj" class="text-danger"></span>
                 </div>
 
                 <div class="col-6">
-                    <label for="text" class="form-label">Senha</label>
+                    <label for="text" class="col-form-label">Senha</label>
                     <input type="password" class="form-control" asp-for="Senha" placeholder="Insira senha" />
                     <span asp-validation-for="Senha" class="text-danger"></span>
                 </div>
 
                 <div class="col-6">
-                    <label for="text" class="form-label">Confirmar Senha</label>
+                    <label for="text" class="col-form-label">Confirmar Senha</label>
                     <input type="password" class="form-control" asp-for="ComparaSenha" placeholder="Repetir a senha" />
                     <span asp-validation-for="ComparaSenha" class="text-danger"></span>
                 </div>

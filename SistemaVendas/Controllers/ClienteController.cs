@@ -56,7 +56,7 @@ namespace SistemaVendas.Controllers
             }
             catch
             {
-                return View();
+                return View("Error");
             }
         }
         #endregion Add
@@ -75,7 +75,7 @@ namespace SistemaVendas.Controllers
             }
             catch 
             {
-                return View();
+                return View("Error");
             }
         }
 
@@ -97,7 +97,7 @@ namespace SistemaVendas.Controllers
             } 
             catch
             {
-                return View();
+                return View("Error");
             }           
             
         }
@@ -113,6 +113,7 @@ namespace SistemaVendas.Controllers
             }
             catch
             {
+                return View("Error");
             }
 
             return View(cliente);        
@@ -122,7 +123,7 @@ namespace SistemaVendas.Controllers
         {
             try
             {
-                var cliente = _repository.GetCliente(id);
+                var cliente = _repository.GetCliente(idCliente);
                 if (cliente != null)
                 {
                     _repository.Delete(cliente);
@@ -131,9 +132,9 @@ namespace SistemaVendas.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch (System.Exception)
+            catch
             {
-                return RedirectToAction("Index");
+                return View("Error");
             }
         }
         #endregion Delete

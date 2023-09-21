@@ -23,7 +23,7 @@ namespace SistemaVendas.Controllers
             }
             catch 
             {
-                return View();
+                return View("Error");
             }
         }
 
@@ -43,13 +43,12 @@ namespace SistemaVendas.Controllers
                     _repository.Add(vendedor);
                     if(_repository.SaveChanges())
                         return RedirectToAction("Index");
-
                 }
                 return View("Add", vendedor);
             }
             catch
             {
-                return View();
+                return View("Error");
             }
         }
         #endregion Add
@@ -67,7 +66,7 @@ namespace SistemaVendas.Controllers
             }
             catch 
             {
-                return View();
+                return View("Error");
             }
         }
 
@@ -90,7 +89,7 @@ namespace SistemaVendas.Controllers
             }
             catch 
             {
-                return View();
+                return View("Error");
             }
         }
         #endregion Update
@@ -105,7 +104,7 @@ namespace SistemaVendas.Controllers
             }
             catch 
             {
-                return View();
+                return View("Error");
             }
         }
 
@@ -117,16 +116,15 @@ namespace SistemaVendas.Controllers
                 if (vendedor != null)
                 {
                     _repository.Delete(vendedor);
-
                     if (_repository.SaveChanges())
                         return RedirectToAction("Index");
-                }
-                return View("Delete", vendedor);
+                }                
             }
             catch 
-            {
-                return View();
+            {                
             }
+
+            return View("Error");
         }
         #endregion Delete
     }

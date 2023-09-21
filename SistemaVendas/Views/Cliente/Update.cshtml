@@ -17,31 +17,31 @@
                 <input type="hidden" asp-for="Id" />
 
                 <div class="col-12">
-                    <label for="nome" class="form-label">Nome</label>
+                    <label for="nome" class="col-form-label">Nome</label>
                     <input type="text" class="form-control" asp-for="Nome" />
                     <span asp-validation-for="Nome" class="text-danger"></span>
                 </div>
 
                 <div class="col-12">
-                    <label for="email" class="form-label">@Html.DisplayNameFor(m => m.Email)</label>
+                    <label for="email" class="col-form-label">@Html.DisplayNameFor(m => m.Email)</label>
                     <input type="text" class="form-control" asp-for="Email" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
 
                 <div class="col-12">
-                    <label for="cnpjcpf" class="form-label">@Html.DisplayNameFor(m => m.CpfCnpj)</label>
+                    <label for="cnpjcpf" class="col-form-label">@Html.DisplayNameFor(m => m.CpfCnpj)</label>
                     <input type="number" class="form-control" asp-for="CpfCnpj" />
                     <span asp-validation-for="CpfCnpj" class="text-danger"></span>
                 </div>
 
                 <div class="col-6">
-                    <label for="senha" class="form-label">Senha</label>
+                    <label for="senha" class="col-form-label">Senha</label>
                     <input type="password" class="form-control" asp-for="Senha" />
                     <span asp-validation-for="Senha" class="text-danger"></span>
                 </div>
 
                 <div class="col-6">
-                    <label for="senha" class="form-label">Confirmar Senha</label>
+                    <label for="senha" class="col-form-label">Confirmar Senha</label>
                     <input type="password" class="form-control" asp-for="ComparaSenha" />
                     <span asp-validation-for="ComparaSenha" class="text-danger"></span>
                 </div>

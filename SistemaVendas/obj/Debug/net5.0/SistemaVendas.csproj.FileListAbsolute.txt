@@ -381,6 +381,10 @@ C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Home\Login.cshtml.g.cs
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Home\Menu.cshtml.g.cs
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Home\Privacy.cshtml.g.cs
+C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Produto\Add.cshtml.g.cs
+C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Produto\Delete.cshtml.g.cs
+C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Produto\Index.cshtml.g.cs
+C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Produto\Update.cshtml.g.cs
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
