@@ -43,7 +43,12 @@
 
                 <div class="col-6">
                     <label for="text" class="col-form-label">@Html.DisplayNameFor(m => m.Unidade_Medida)</label>
-                    <input type="text" class="form-control" asp-for="Unidade_Medida" placeholder="Insira uma unidade de medida"/>
+                    <select asp-for="Unidade_Medida" class="form-control">
+                        <option value="UN">UN</option>
+                        <option value="TON">TON</option>
+                        <option value="KG">KG</option>
+                        <option value="G">G</option>
+                    </select>                    
                     <span asp-validation-for="Unidade_Medida" class="text-danger"></span>
                 </div>
 

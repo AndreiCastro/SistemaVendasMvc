@@ -7,7 +7,7 @@
 <meta charset="utf-8" />
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-">
             <div class="d-grid gap-2 d-md-flex justify-context-md-start">
                 <a class="btn btn-primary" role="button" asp-controller="Produto" asp-action="Add">Adicionar Produto</a>
             </div>
@@ -17,7 +17,7 @@
                 <h4 class="display-4">Lista de Produtos</h4>
             </div>
 
-            <table class="table">
+            <table class="table text-center">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -38,7 +38,7 @@
                                 <th scope="col">@produto.Id</th>
                                 <td>@produto.Nome</td>
                                 <td>@produto.Descricao</td>
-                                <td>@produto.Preco_Unitario</td>
+                                <td>R$ @produto.Preco_Unitario</td>
                                 <td>@Convert.ToInt32(produto.Quantidade_Estoque)</td>
                                 <td>@produto.Unidade_Medida</td>
                                 <td><img src="@produto.Link_Foto" width="150" height="150" /></td>

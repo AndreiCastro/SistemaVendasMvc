@@ -1,0 +1,54 @@
+﻿@model VendaModel
+
+@{
+    ViewData["Title"] = "Registrar Venda";
+}
+<meta charset="utf-8" />
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="text-center">
+                <h4 class="display-4">Registrar Venda</h4>
+            </div>
+
+            <form class="row g-3" asp-controller="Venda" asp-action="Post" method="post">
+                <div class="col-12">
+                    <label for="text" class="col-form-label">Cliente</label>
+                    <select asp-for="IdCliente" class="form-control">                        
+                        @foreach (var cliente in (List<ClienteModel>)ViewBag.ListaClientes)
+                        {
+                            <option value="@cliente.Id">@cliente.Nome</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-12">
+                    <label for="text" class="col-form-label">Produto</label>
+                    <select asp-for="IdProduto" class="form-control">
+                        @foreach (var produto in (List<ProdutoModel>)ViewBag.ListaProdutos)
+                        {
+                            <option value="@produto.Id">@produto.Nome</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-6">
+                    <label for="text" class="col-form-label">@Html.DisplayNameFor(m => m.Quantidade_Produto)</label>
+                    <input type="number" class="form-control" asp-for="Quantidade_Produto" placeholder="Inseri quantidade"
+                        min="0" step="1" />
+                    <span asp-validation-for="Quantidade_Produto" class="text-danger"></span>
+                </div>
+                <br />
+                <br />
+                <br />
+                <br />
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                    <a class="btn btn-secondary" role="button" asp-controller="Venda" asp-action="Index">Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

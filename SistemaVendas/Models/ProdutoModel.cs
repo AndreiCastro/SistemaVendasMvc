@@ -25,7 +25,7 @@ namespace SistemaVendas.Models
         [DisplayName("Quantidade")]
         public decimal Quantidade_Estoque { get; set; }
 
-        [Required(ErrorMessage = "Unidade é obrigatória.")]
+        [Required(ErrorMessage = "Unidade de Medida é obrigatória.")]
         [DisplayName("Unidade Medida")]
         [StringLength(3, MinimumLength = 1, ErrorMessage = "{0} deve conter de {2} a {1} caracteres.")]
         public string Unidade_Medida { get; set; }

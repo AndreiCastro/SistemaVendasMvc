@@ -43,7 +43,14 @@
 
                 <div class="col-6">
                     <label for="text" class="col-form-label">@Html.DisplayNameFor(m => m.Unidade_Medida)</label>
-                    <input type="text" class="form-control" asp-for="Unidade_Medida" />
+                    <select asp-for="Unidade_Medida" class="form-control">
+                        <option value="@Model.Unidade_Medida" selected>@Model.Unidade_Medida</option>
+                        <option value="UN">UN</option>
+                        <option value="TON">TON</option>
+                        <option value="KG">KG</option>
+                        <option value="G">G</option>
+                    </select>                    
+                    @* <input type="text" class="form-control" asp-for="Unidade_Medida" /> *@
                     <span asp-validation-for="Unidade_Medida" class="text-danger"></span>
                 </div>
 
