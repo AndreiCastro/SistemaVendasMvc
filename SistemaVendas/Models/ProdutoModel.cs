@@ -10,7 +10,7 @@ namespace SistemaVendas.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Nome é obrigatório.")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "{0} deve conter de {2} a {1} caracteres.")]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "{0} deve conter de {2} a {1} caracteres.")]
         public string Nome{ get; set; }
 
         [Required(ErrorMessage = "Descrição é obrigatória.")]        
