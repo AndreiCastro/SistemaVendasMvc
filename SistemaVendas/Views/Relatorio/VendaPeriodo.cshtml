@@ -13,7 +13,7 @@
                 <h4 class="display-4">Venda por Período</h4>
             </div>
 
-            <form class="row g-3" asp-controller="Relatorio" asp-action="SelectVendaPeriodo" method="Get">
+            <form class="row g-3" asp-controller="Relatorio" asp-action="VendaPeriodo" method="Get">
                 <div class="col-6">
                     <label for="text" class="col-form-label">@Html.DisplayNameFor(m => m.DataDe)</label>
                     <input type="date" class="form-control" asp-for="DataDe" />
@@ -48,9 +48,9 @@
                             {
                                 <tr>
                                     <th scope="col">@venda.Id</th>
-                                    <td>@venda.NomeCliente</td>
-                                    <td>@venda.NomeVendedor</td>
-                                    <td>@venda.NomeProduto</td>
+                                    <td>@venda.Cliente.Nome</td>
+                                    <td>@venda.Vendedor.Nome</td>
+                                    <td>@venda.Produto.Nome</td>
                                     <td>@venda.Data.ToString("dd/MM/yyyy")</td>
                                     <td>@venda.Quantidade_Produto</td>
                                     <td>R$ @venda.Total</td>

@@ -1,13 +1,14 @@
 ﻿using SistemaVendas.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SistemaVendas.Repository
 {
     public interface IClienteRepository
     {
-        List<ClienteModel> GetAllClientes();
+        Task<List<ClienteModel>> GetAllClientes();
 
-        ClienteModel GetCliente(int id);
+        Task<ClienteModel> GetCliente(int id);
 
         void Add(ClienteModel cliente);
 
@@ -15,6 +16,6 @@ namespace SistemaVendas.Repository
 
         void Update(ClienteModel cliente);
         
-        bool SaveChanges();
+        Task<bool> SaveChanges();
     }
 }

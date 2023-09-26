@@ -7,15 +7,16 @@ namespace SistemaVendas.Models
 {
     public class VendedorModel
     {
-
+        [Key()]
         public int Id { get; set; }
         
         [Required(ErrorMessage = "Nome é obrigatório.")]
-        [StringLength(100, MinimumLength = 3, ErrorMessage = "{0} deve conter de {2} a {1} caracteres.")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "{0} deve conter de {2} a {1} caracteres.")]
         public string Nome { get; set; }
 
         [Required(ErrorMessage = "E-mail é obrigatório.")]
-        [EmailAddress(ErrorMessage = "E-mail com formato inválido.")]        
+        [EmailAddress(ErrorMessage = "E-mail com formato inválido.")]
+        [StringLength(100, MinimumLength = 3, ErrorMessage = "{0} deve conter de {2} a {1} caracteres.")]
         [DisplayName("E-mail")]
         public string Email { get; set; }
 

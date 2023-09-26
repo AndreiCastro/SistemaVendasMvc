@@ -1,9 +1,10 @@
 ﻿using SistemaVendas.Models;
+using System.Threading.Tasks;
 
 namespace SistemaVendas.Repository
 {
     public interface ILoginRepository
     {
-        VendedorModel ValidarLogin(VendedorModel login);
+        Task<VendedorModel> ValidarLogin(VendedorModel login);
     }
 }

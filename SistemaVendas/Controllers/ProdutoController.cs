@@ -2,6 +2,7 @@
 using SistemaVendas.Models;
 using SistemaVendas.Repository;
 using System;
+using System.Threading.Tasks;
 
 namespace SistemaVendas.Controllers
 {
@@ -15,11 +16,11 @@ namespace SistemaVendas.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
-                var produtos = _repository.GetAllProdutos();
+                var produtos = await _repository.GetAllProdutos();
                 return View(produtos);
             }
             catch
@@ -35,14 +36,14 @@ namespace SistemaVendas.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(ProdutoModel produto)
+        public async Task<IActionResult> Post(ProdutoModel produto)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     _repository.Add(produto);
-                    if (_repository.SaveChanges())
+                    if (await _repository.SaveChanges())
                         return RedirectToAction("Index");
                 }
                 return View("Add", produto);
@@ -55,16 +56,15 @@ namespace SistemaVendas.Controllers
         #endregion Add
 
         #region Update
-        public IActionResult Update(int idProduto)
+        public async Task<IActionResult> Update(int idProduto)
         {
             try
             {
-                var produto = _repository.GetProduto(idProduto);
+                var produto = await _repository.GetProduto(idProduto);
                 
                 if (produto != null)
                 {
-                    produto.Quantidade_Estoque = Convert.ToInt32(produto.Quantidade_Estoque);
-                    //Fiz essa conversão pra exibir o número inteiro na view Update
+                    ViewBag.UnidadeMedida = produto.UnidadeMedida;                 
                     return View(produto);
                 }
                 return View();
@@ -76,17 +76,17 @@ namespace SistemaVendas.Controllers
         }
 
         [HttpPost]
-        public IActionResult Put(ProdutoModel produto)
+        public async Task<IActionResult> Put(ProdutoModel produto)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var produtoDB = _repository.GetProduto(produto.Id);
+                    var produtoDB = await _repository.GetProduto(produto.Id);
                     if (produtoDB != null)
                     {
                         _repository.Update(produto);
-                        if(_repository.SaveChanges())                        
+                        if(await _repository.SaveChanges())                        
                             return RedirectToAction("Index");                        
                     }
                 }
@@ -100,11 +100,11 @@ namespace SistemaVendas.Controllers
         #endregion Update
 
         #region Delete
-        public IActionResult Delete(int idProduto)
+        public async Task<IActionResult> Delete(int idProduto)
         {
             try
             {
-                var produto = _repository.GetProduto(idProduto);
+                var produto = await _repository.GetProduto(idProduto);
                 return View(produto);
             }
             catch
@@ -113,15 +113,15 @@ namespace SistemaVendas.Controllers
             }
         }
 
-        public IActionResult DeleteConfirm(int idProduto)
+        public async Task<IActionResult> DeleteConfirm(int idProduto)
         {
             try
             {
-                var produto = _repository.GetProduto(idProduto);
+                var produto = await _repository.GetProduto(idProduto);
                 if(produto != null)
                 {
                     _repository.Delete(produto);
-                    if(_repository.SaveChanges())
+                    if(await _repository.SaveChanges())
                         return RedirectToAction("Index");
                 }
             }

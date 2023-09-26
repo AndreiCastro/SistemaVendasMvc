@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SistemaVendas.Models;
 using SistemaVendas.Repository;
+using System.Threading.Tasks;
 
 namespace SistemaVendas.Controllers
 {
@@ -14,11 +15,11 @@ namespace SistemaVendas.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
-                var vendedores = _repository.GetAllVendedores();
+                var vendedores = await _repository.GetAllVendedores();
                 return View(vendedores);
             }
             catch 
@@ -34,14 +35,14 @@ namespace SistemaVendas.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(VendedorModel vendedor)
+        public async Task<IActionResult> Post(VendedorModel vendedor)
         {
             try
             {
                 if(ModelState.IsValid)
                 {
                     _repository.Add(vendedor);
-                    if(_repository.SaveChanges())
+                    if(await _repository.SaveChanges())
                         return RedirectToAction("Index");
                 }
                 return View("Add", vendedor);
@@ -54,11 +55,11 @@ namespace SistemaVendas.Controllers
         #endregion Add
 
         #region Update
-        public IActionResult Update(int idVendedor) //Este parametro tem que ter o mesmo nome que colocou asp-route-"idVendedor" na Index 
+        public async Task<IActionResult> Update(int idVendedor) //Este parametro tem que ter o mesmo nome que colocou asp-route-"idVendedor" na Index 
         {
             try
             {
-                var vendedor = _repository.GetVendedor(idVendedor);
+                var vendedor = await _repository.GetVendedor(idVendedor);
                 if(vendedor != null)
                     return View(vendedor);
                 
@@ -71,17 +72,17 @@ namespace SistemaVendas.Controllers
         }
 
         [HttpPost]
-        public IActionResult Put(VendedorModel vendedor)
+        public async Task<IActionResult> Put(VendedorModel vendedor)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var vendedorDB = _repository.GetVendedor(vendedor.Id);
+                    var vendedorDB = await _repository.GetVendedor(vendedor.Id);
                     if (vendedorDB != null)
                     {
                         _repository.Update(vendedor);
-                        if (_repository.SaveChanges())
+                        if (await _repository.SaveChanges())
                             return RedirectToAction("Index");
                     }
                 }
@@ -95,11 +96,11 @@ namespace SistemaVendas.Controllers
         #endregion Update
 
         #region Delete
-        public IActionResult Delete(int idVendedor)
+        public async Task<IActionResult> Delete(int idVendedor)
         {
             try
             {
-                var vendedor = _repository.GetVendedor(idVendedor);
+                var vendedor = await _repository.GetVendedor(idVendedor);
                 return View(vendedor);
             }
             catch 
@@ -108,15 +109,15 @@ namespace SistemaVendas.Controllers
             }
         }
 
-        public IActionResult DeleteConfirm(int idVendedor)
+        public async Task<IActionResult> DeleteConfirm(int idVendedor)
         {
             try
             {
-                var vendedor = _repository.GetVendedor(idVendedor);
+                var vendedor = await _repository.GetVendedor(idVendedor);
                 if (vendedor != null)
                 {
                     _repository.Delete(vendedor);
-                    if (_repository.SaveChanges())
+                    if (await _repository.SaveChanges())
                         return RedirectToAction("Index");
                 }                
             }

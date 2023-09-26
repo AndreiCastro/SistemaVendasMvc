@@ -27,29 +27,24 @@
                 </div>
 
                 <div class="col-6">
-                    <label for="text" class="col-form-label">@Html.DisplayNameFor(m => m.Preco_Unitario)</label>
-                    <input type="text" inputmode="numeric" class="form-control" asp-for="Preco_Unitario" placeholder="Insira um preço" 
+                    <label for="text" class="col-form-label">@Html.DisplayNameFor(m => m.PrecoUnitario)</label>
+                    <input type="text" inputmode="numeric" class="form-control" asp-for="PrecoUnitario" placeholder="Insira um preço" 
                         min="0" step="0.01"/>
                     @* Fiz type="text" inputmode="numeric" pois se o type="number" são salva com as casas decimais *@
-                    <span asp-validation-for="Preco_Unitario" class="text-danger"></span>
+                    <span asp-validation-for="PrecoUnitario" class="text-danger"></span>
                 </div>                
 
                 <div class="col-6">
-                    <label for="text" class="col-form-label">@Html.DisplayNameFor(m => m.Quantidade_Estoque)</label>
-                    <input type="number" class="form-control" asp-for="Quantidade_Estoque" placeholder="Insira uma quantidade" 
+                    <label for="text" class="col-form-label">@Html.DisplayNameFor(m => m.QuantidadeEstoque)</label>
+                    <input type="number" class="form-control" asp-for="QuantidadeEstoque" placeholder="Insira uma quantidade" 
                         min="0" step="1"/>
-                    <span asp-validation-for="Quantidade_Estoque" class="text-danger"></span>
+                    <span asp-validation-for="QuantidadeEstoque" class="text-danger"></span>
                 </div>
 
                 <div class="col-6">
-                    <label for="text" class="col-form-label">@Html.DisplayNameFor(m => m.Unidade_Medida)</label>
-                    <select asp-for="Unidade_Medida" class="form-control">
-                        <option value="UN">UN</option>
-                        <option value="TON">TON</option>
-                        <option value="KG">KG</option>
-                        <option value="G">G</option>
-                    </select>                    
-                    <span asp-validation-for="Unidade_Medida" class="text-danger"></span>
+                    <label for="text" class="col-form-label">@Html.DisplayNameFor(m => m.UnidadeMedida)</label>
+                    <select asp-for="UnidadeMedida" class="form-control" asp-items="@Html.GetEnumSelectList(typeof(SistemaVendas.Enums.Enumeradores.UnidadeMedida))"></select>
+                    <span asp-validation-for="UnidadeMedida" class="text-danger"></span>
                 </div>
 
                 <div class="col-6">
@@ -63,7 +58,7 @@
                 <br />
 
                 <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Adicionar</button> 
+                    <button type="submit" class="btn btn-primary" value="Post">Adicionar</button> 
                     <a class="btn btn-secondary" role="button" asp-controller="Produto" asp-action="Index">Voltar</a>
                 </div>
             </form>

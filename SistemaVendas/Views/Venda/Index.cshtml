@@ -36,9 +36,9 @@
                         {
                             <tr>
                                 <th scope="col">@venda.Id</th>
-                                <td>@venda.NomeCliente</td>
-                                <td>@venda.NomeVendedor</td>
-                                <td>@venda.NomeProduto</td>
+                                <td>@venda.Cliente.Nome</td>
+                                <td>@venda.Vendedor.Nome</td>
+                                <td>@venda.Produto.Nome</td>
                                 <td>@venda.Data.ToString("dd/MM/yyyy")</td>
                                 <td>@venda.Quantidade_Produto</td>                                
                                 <td>R$ @venda.Total</td>

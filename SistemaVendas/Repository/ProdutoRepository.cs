@@ -3,6 +3,7 @@ using SistemaVendas.Data;
 using SistemaVendas.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SistemaVendas.Repository
 {
@@ -15,19 +16,19 @@ namespace SistemaVendas.Repository
             _context = context;
         }
 
-        public List<ProdutoModel> GetAllProdutos()
+        public async Task<List<ProdutoModel>> GetAllProdutos()
         {
-            return _context.Produtos.AsNoTracking().OrderBy(x => x.Nome).ToList();
+            return await _context.Produtos.AsNoTracking().OrderBy(x => x.Nome).ToListAsync();
         }
 
-        public ProdutoModel GetProduto(int idProduto)
+        public async Task<ProdutoModel> GetProduto(int idProduto)
         {
-            return _context.Produtos.AsNoTracking().FirstOrDefault(x => x.Id == idProduto);
+            return await _context.Produtos.AsNoTracking().FirstOrDefaultAsync(x => x.Id == idProduto);
         }
 
         public void Add(ProdutoModel produto)
         {
-            _context.Add(produto);
+            _context.AddAsync(produto);
         }
 
         public void Delete(ProdutoModel produto)
@@ -40,9 +41,9 @@ namespace SistemaVendas.Repository
             _context.Update(produto);
         }
 
-        public bool SaveChanges()
+        public async Task<bool> SaveChanges()
         {
-            return (_context.SaveChanges() > 0);
+            return (await _context.SaveChangesAsync() > 0);
         }
     }
 }

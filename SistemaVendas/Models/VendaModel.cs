@@ -7,36 +7,31 @@ namespace SistemaVendas.Models
 {
     public class VendaModel
     {
+        [Key()]
         public int Id { get; set; }
         
         [Required]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Data { get; set; }
 
         [Required]
         public decimal Total { get; set; }
 
         [Required(ErrorMessage = "Quantidade é obrigatória.")]
-        [DisplayName("Quantidade Produto")]
+        [DisplayName("Quantidade do Produto")]
         public int Quantidade_Produto { get; set; }
 
-        [Required]
-        public int IdVendedor { get; set; }
 
-        [Required]
+        [ForeignKey("Cliente")]
         public int IdCliente { get; set; }
+        public virtual ClienteModel Cliente { get; set; }
 
-        [Required]
+        [ForeignKey("Produto")]
         public int IdProduto { get; set; }
+        public ProdutoModel Produto { get; set; }
 
+        [ForeignKey("Vendedor")]
+        public int IdVendedor { get; set; }
+        public virtual VendedorModel Vendedor { get; set; }
 
-        [NotMapped]
-        public string NomeCliente { get; set; }
-
-        [NotMapped]
-        public string NomeVendedor { get; set; }
-
-        [NotMapped]
-        public string NomeProduto { get; set; }
     }
 }

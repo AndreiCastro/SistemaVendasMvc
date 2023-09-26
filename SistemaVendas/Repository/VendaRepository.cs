@@ -4,6 +4,7 @@ using SistemaVendas.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SistemaVendas.Repository
 {
@@ -16,8 +17,9 @@ namespace SistemaVendas.Repository
             _context = context;
         }
 
-        public List<VendaModel> GetAllVendas()
+        public async Task<List<VendaModel>> GetAllVendas()
         {
+            /* Exemplo de LINQ com JOIN
             var vendas = _context.Vendas.AsNoTracking();
             var clientes = _context.Clientes.AsNoTracking();
             var vendedores = _context.Vendedores.AsNoTracking();
@@ -48,16 +50,23 @@ namespace SistemaVendas.Repository
                     IdVendedor = v.Venda.IdVendedor,
                     IdCliente = v.Venda.IdCliente,
                     IdProduto = v.Venda.IdProduto,
-                    NomeVendedor = v.Vendedor.Nome,
-                    NomeCliente = v.Cliente.Nome,
-                    NomeProduto = v.Produto.Nome
+                    //NomeVendedor = v.Vendedor.Nome,
+                    //NomeCliente = v.Cliente.Nome,
+                    //NomeProduto = v.Produto.Nome
                 });
             }
             return lista.OrderBy(x => x.Data).ToList();
+            */
+            return await _context.Vendas.AsNoTrackingWithIdentityResolution()
+                .Include(c => c.Cliente)
+                .Include(p => p.Produto)
+                .Include(v => v.Vendedor)
+                .ToListAsync();
         }
 
-        public List<VendaModel> GetVendasPorPeriodo(DateTime dataDe, DateTime dataAte)
+        public async Task<List<VendaModel>> GetVendasPorPeriodo(DateTime dataDe, DateTime dataAte)
         {
+            /* Exemplo de LINQ com JOIN
             var vendas = _context.Vendas.AsNoTracking();
             var vendedores = _context.Vendedores.AsNoTracking();
             var clientes = _context.Clientes.AsNoTracking();
@@ -86,23 +95,30 @@ namespace SistemaVendas.Repository
                     Data = venda.Venda.Data,
                     Total = venda.Venda.Total,
                     Quantidade_Produto = venda.Venda.Quantidade_Produto,
-                    NomeVendedor = venda.Vendedor.Nome,
-                    NomeCliente = venda.Cliente.Nome,
-                    NomeProduto = venda.Produto.Nome
+                    //NomeVendedor = venda.Vendedor.Nome,
+                    //NomeCliente = venda.Cliente.Nome,
+                    //NomeProduto = venda.Produto.Nome
                 });
             }
 
             return lista;
+            */
+            return await _context.Vendas.AsNoTrackingWithIdentityResolution()
+                .Include(c => c.Cliente)
+                .Include(p => p.Produto)
+                .Include(v => v.Vendedor)
+                .Where(x => x.Data >= dataDe && x.Data <= dataAte)
+                .ToListAsync();
         }
 
-        public VendaModel GetVenda(int idVenda)
+        public async Task<VendaModel> GetVenda(int idVenda)
         {
-            return _context.Vendas.AsNoTracking().FirstOrDefault(x => x.Id == idVenda);
+            return await _context.Vendas.AsNoTracking().FirstOrDefaultAsync(x => x.Id == idVenda);
         }
 
         public void Add(VendaModel venda)
         {
-            _context.Add(venda);
+            _context.AddAsync(venda);
         }
 
         public void Delete(VendaModel venda)
@@ -110,9 +126,9 @@ namespace SistemaVendas.Repository
             _context.Remove(venda);
         }
 
-        public bool SaveChanges()
+        public async Task<bool> SaveChanges()
         {
-            return (_context.SaveChanges() > 0);
+            return (await _context.SaveChangesAsync() > 0);
         }
     }
 }

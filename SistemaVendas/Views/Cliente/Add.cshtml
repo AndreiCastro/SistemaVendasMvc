@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="col-6">
-                    <label for="text" class="col-form-label">Confirmar Senha</label>
+                    <label for="text" class="col-form-label">@Html.DisplayNameFor(m => m.ComparaSenha)</label>
                     <input type="password" class="form-control" asp-for="ComparaSenha" placeholder="Repetir a senha" />
                     <span asp-validation-for="ComparaSenha" class="text-danger"></span>
                 </div>
@@ -49,7 +49,7 @@
                 <br />
 
                 <div class="col-6">
-                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                    <button type="submit" class="btn btn-primary" value="Post">Adicionar</button>
                     <a class="btn btn-secondary" role="button" asp-controller="Cliente" asp-action="Index">Voltar</a>
                 </div>
             </form>

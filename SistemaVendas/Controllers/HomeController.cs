@@ -48,11 +48,11 @@ namespace SistemaVendas.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(VendedorModel login)
+        public async Task<IActionResult> Login(VendedorModel login)
         {
             try
             {
-                var userLogin = _repository.ValidarLogin(login);
+                var userLogin = await _repository.ValidarLogin(login);
                 if (userLogin != null)
                 {
                     HttpContext.Session.SetString("idUsuarioLogado", userLogin.Id.ToString());

@@ -4,6 +4,7 @@ using SistemaVendas.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace SistemaVendas.Repository
 {
@@ -17,20 +18,20 @@ namespace SistemaVendas.Repository
         }
 
         #region Selects
-        public List<VendedorModel> GetAllVendedores()
+        public async Task<List<VendedorModel>> GetAllVendedores()
         {
-            return _context.Vendedores.AsNoTracking().OrderBy(x => x.Nome).ToList();
+            return await _context.Vendedores.AsNoTracking().OrderBy(x => x.Nome).ToListAsync();
         }
 
-        public VendedorModel GetVendedor(int idVendedor)
+        public async Task<VendedorModel> GetVendedor(int idVendedor)
         {
-            return _context.Vendedores.AsNoTracking().FirstOrDefault(x => x.Id == idVendedor);
+            return await _context.Vendedores.AsNoTracking().FirstOrDefaultAsync(x => x.Id == idVendedor);
         }
         #endregion Selects
 
         public void Add(VendedorModel vendedor)
         {
-            _context.Add(vendedor);
+            _context.AddAsync(vendedor);
         }
 
         public void Delete(VendedorModel vendedor)
@@ -43,9 +44,9 @@ namespace SistemaVendas.Repository
             _context.Update(vendedor);
         }
 
-        public bool SaveChanges()
+        public async Task<bool> SaveChanges()
         {
-            return (_context.SaveChanges() > 0);
+            return (await _context.SaveChangesAsync() > 0);
         }
     }
 }

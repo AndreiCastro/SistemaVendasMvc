@@ -3,6 +3,7 @@ using SistemaVendas.Data;
 using SistemaVendas.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SistemaVendas.Repository
 {
@@ -16,20 +17,20 @@ namespace SistemaVendas.Repository
         }
 
         #region Selects
-        public List<ClienteModel> GetAllClientes()
+        public async Task<List<ClienteModel>> GetAllClientes()
         {
-            return _context.Clientes.AsNoTracking().OrderBy(x => x.Nome).ToList();
+            return await _context.Clientes.AsNoTracking().OrderBy(x => x.Nome).ToListAsync();
         }
 
-        public ClienteModel GetCliente(int id)
+        public async Task<ClienteModel> GetCliente(int id)
         {
-            return _context.Clientes.AsNoTracking().FirstOrDefault(x => x.Id == id);
+            return await _context.Clientes.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
         #endregion Selects
 
         public void Add(ClienteModel cliente)
         {
-            _context.Add(cliente);
+            _context.AddAsync(cliente);
         }
 
         public void Delete(ClienteModel cliente)
@@ -42,9 +43,9 @@ namespace SistemaVendas.Repository
             _context.Update(cliente);
         }
 
-        public bool SaveChanges()
+        public async Task<bool> SaveChanges()
         {
-            return (_context.SaveChanges() > 0);
+            return (await _context.SaveChangesAsync() > 0);
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using SistemaVendas.Data;
 using SistemaVendas.Models;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SistemaVendas.Repository
 {
@@ -13,9 +14,9 @@ namespace SistemaVendas.Repository
         {
             _context = context;               
         }
-        public VendedorModel ValidarLogin(VendedorModel login)
+        public async Task<VendedorModel> ValidarLogin(VendedorModel login)
         {
-            return _context.Vendedores.AsNoTracking().FirstOrDefault(l => l.Email == login.Email && l.Senha == login.Senha);
+            return await _context.Vendedores.AsNoTracking().FirstOrDefaultAsync(l => l.Email == login.Email && l.Senha == login.Senha);
         }
     }
 }

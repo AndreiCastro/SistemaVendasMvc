@@ -3,6 +3,7 @@ using SistemaVendas.Models;
 using SistemaVendas.Repository;
 using System;
 using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 namespace SistemaVendas.Controllers
 {
@@ -22,11 +23,11 @@ namespace SistemaVendas.Controllers
             _contextAccessor = httpContextAccessor;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
-                var vendas = _repository.GetAllVendas();
+                var vendas = await _repository.GetAllVendas();
                 return View(vendas);
             }
             catch 
@@ -36,16 +37,12 @@ namespace SistemaVendas.Controllers
         }
 
         #region Add
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
             try
             {
-                var clientes = _repositoryCliente.GetAllClientes();
-                var produtos = _repositoryProduto.GetAllProdutos();
-                
-                ViewBag.ListaClientes = clientes;
-                ViewBag.ListaProdutos = produtos;
-
+                ViewBag.ListaClientes = await _repositoryCliente.GetAllClientes();
+                ViewBag.ListaProdutos = await _repositoryProduto.GetAllProdutos();
                 return View();
             }
             catch
@@ -55,41 +52,35 @@ namespace SistemaVendas.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(VendaModel venda)
+        public async Task<IActionResult> Post(VendaModel venda)
         {
             try
             {
                 if(ModelState.IsValid)
                 {
-                    var produto = _repositoryProduto.GetProduto(venda.IdProduto);
+                    var produto = await _repositoryProduto.GetProduto(venda.IdProduto);
                     if(produto != null)
                     {
-                        produto.Quantidade_Estoque -= venda.Quantidade_Produto;
+                        produto.QuantidadeEstoque -= venda.Quantidade_Produto;
                         _repositoryProduto.Update(produto);
-                        if(_repositoryProduto.SaveChanges())
+                        if( await _repositoryProduto.SaveChanges())
                         {
                             venda.Data = DateTime.Now;
-                            venda.Total = venda.Quantidade_Produto * produto.Preco_Unitario;
+                            venda.Total = venda.Quantidade_Produto * produto.PrecoUnitario;
                             venda.IdVendedor = Convert.ToInt32(_contextAccessor.HttpContext.Session.GetString("idUsuarioLogado"));
 
                             _repository.Add(venda);
-                            if (_repository.SaveChanges())                            
+                            if (await _repository.SaveChanges())                            
                                 return RedirectToAction("Index");
                         }
                     }
                 }
                 else
                 {
-                    var clientes = _repositoryCliente.GetAllClientes();
-                    var produtos = _repositoryProduto.GetAllProdutos();
-
-                    ViewBag.ListaClientes = clientes;
-                    ViewBag.ListaProdutos = produtos;
-
+                    ViewBag.ListaClientes = _repositoryCliente.GetAllClientes();
+                    ViewBag.ListaProdutos = _repositoryProduto.GetAllProdutos();
                     return View("Add", venda);
                 }
-                
-
             }
             catch 
             {
@@ -99,11 +90,11 @@ namespace SistemaVendas.Controllers
         #endregion Add
 
         #region Delete
-        public IActionResult Delete(int idVenda)
+        public async Task<IActionResult> Delete(int idVenda)
         {
             try
             {
-                var venda = _repository.GetVenda(idVenda);
+                var venda = await _repository.GetVenda(idVenda);
                 return View(venda);
             }
             catch
@@ -111,22 +102,21 @@ namespace SistemaVendas.Controllers
             }
             return View("Error");
         }
-
-        [HttpPost]
-        public IActionResult DeleteConfirm(int idVenda)
+                
+        public async Task<IActionResult> DeleteConfirm(int idVenda)
         {
             try
             {
-                var venda = _repository.GetVenda(idVenda);
-                var produto = _repositoryProduto.GetProduto(venda.IdProduto);
+                var venda = await _repository.GetVenda(idVenda);
+                var produto = await _repositoryProduto.GetProduto(venda.IdProduto);
                 if(produto != null)
                 {
-                    produto.Quantidade_Estoque += venda.Quantidade_Produto;
+                    produto.QuantidadeEstoque += venda.Quantidade_Produto;
                     _repositoryProduto.Update(produto);
-                    if(_repositoryProduto.SaveChanges())
+                    if(await _repositoryProduto.SaveChanges())
                     {
                         _repository.Delete(venda);
-                        if (_repository.SaveChanges())
+                        if (await _repository.SaveChanges())
                             return RedirectToAction("Index");
                     }
                 }

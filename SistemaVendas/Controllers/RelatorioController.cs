@@ -3,6 +3,7 @@ using SistemaVendas.Models;
 using SistemaVendas.Repository;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SistemaVendas.Controllers
 {
@@ -20,11 +21,11 @@ namespace SistemaVendas.Controllers
             return View();
         }
 
-        public IActionResult VendaPeriodo()
+        public async Task<IActionResult> VendaPeriodo()
         {
             try
             {
-                var vendas = _vendaRepository.GetAllVendas();
+                var vendas = await _vendaRepository.GetAllVendas();
                 ViewBag.ListaVendas = vendas;
                 return View();
             }
@@ -36,16 +37,16 @@ namespace SistemaVendas.Controllers
         }
 
         [HttpGet]
-        public IActionResult SelectVendaPeriodo(RelatorioModel relatorio) 
+        public async Task<IActionResult> VendaPeriodo(RelatorioModel relatorio) 
         {
             try
             {
                 var vendas = new List<VendaModel>();
                 
                 if (relatorio.DataDe == new DateTime() || relatorio.DataAte == new DateTime())                
-                    vendas = _vendaRepository.GetAllVendas();                
+                    vendas = await _vendaRepository.GetAllVendas();                
                 else
-                    vendas = _vendaRepository.GetVendasPorPeriodo(relatorio.DataDe, relatorio.DataAte);
+                    vendas = await _vendaRepository.GetVendasPorPeriodo(relatorio.DataDe, relatorio.DataAte);
 
                 ViewBag.ListaVendas = vendas;
                 return View("VendaPeriodo");
