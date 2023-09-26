@@ -26,7 +26,7 @@
                         <th scope="col">Produto</th>
                         <th scope="col">Data</th>
                         <th scope="col">Quantidade Produto</th>
-                        <th scope="col">R$ Valor Total</th>
+                        <th scope="col">Valor Total</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,9 +41,9 @@
                                 <td>@venda.NomeProduto</td>
                                 <td>@venda.Data.ToString("dd/MM/yyyy")</td>
                                 <td>@venda.Quantidade_Produto</td>                                
-                                <td>@venda.Total</td>
+                                <td>R$ @venda.Total</td>
                                 <td>
-                                    <div class="btn-group" role="button">
+                                    <div class="btn-group" role="group">
                                         <a class="btn btn-danger" role="button" asp-route-idVenda="@venda.Id" asp-controller="Venda" asp-action="Delete">Excluir</a>
                                     </div>
                                 </td>

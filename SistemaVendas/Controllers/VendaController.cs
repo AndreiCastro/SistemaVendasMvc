@@ -54,6 +54,7 @@ namespace SistemaVendas.Controllers
             return View("Error");
         }
 
+        [HttpPost]
         public IActionResult Post(VendaModel venda)
         {
             try
@@ -111,6 +112,7 @@ namespace SistemaVendas.Controllers
             return View("Error");
         }
 
+        [HttpPost]
         public IActionResult DeleteConfirm(int idVenda)
         {
             try

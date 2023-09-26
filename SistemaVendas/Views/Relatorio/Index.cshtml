@@ -1,0 +1,25 @@
+﻿@model RelatorioModel
+
+@{
+    ViewData["Title"] = "Relatórios";
+}
+<meta charset="utf-8" />
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div>
+
+            <div class="text-center">
+                <h4 class="display-4">Tipos de Relatórios</h4>
+            </div>
+            <br />
+
+            <div class="col-12">
+                <a class="btn btn-primary" role="button" asp-controller="Relatorio" asp-action="VendaPeriodo">Vendas por Período</a>
+                <a class="btn btn-warning" role="button" asp-controller="Relatorio" asp-action="VendaGrafico">Gráfico de Vendas</a>
+                <a class="btn btn-success" role="button" asp-controller="Relatorio" asp-action="VendaComissaoVendedor">Comissão de Vendedores</a>
+            </div>
+
+        </div>
+    </div>
+</div>

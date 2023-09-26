@@ -7,7 +7,7 @@
 <meta charset="utf-8" />
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-">
+        <div class="col-md-8">
             <div class="d-grid gap-2 d-md-flex justify-context-md-start">
                 <a class="btn btn-primary" role="button" asp-controller="Produto" asp-action="Add">Adicionar Produto</a>
             </div>
@@ -43,7 +43,7 @@
                                 <td>@produto.Unidade_Medida</td>
                                 <td><img src="@produto.Link_Foto" width="150" height="150" /></td>
                                 <td>
-                                    <div class="btn-group" role="button">
+                                    <div class="btn-group" role="group">
                                         <a class="btn btn-primary" role="button" asp-route-idProduto="@produto.Id" asp-controller="Produto" asp-action="Update">Editar</a>
                                         <a class="btn btn-danger" role="button" asp-route-idProduto="@produto.Id" asp-controller="Produto" asp-action="Delete">Excluir</a>
                                     </div>

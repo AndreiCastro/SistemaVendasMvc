@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SistemaVendas.Data;
 using SistemaVendas.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -52,6 +53,45 @@ namespace SistemaVendas.Repository
                     NomeProduto = v.Produto.Nome
                 });
             }
+            return lista.OrderBy(x => x.Data).ToList();
+        }
+
+        public List<VendaModel> GetVendasPorPeriodo(DateTime dataDe, DateTime dataAte)
+        {
+            var vendas = _context.Vendas.AsNoTracking();
+            var vendedores = _context.Vendedores.AsNoTracking();
+            var clientes = _context.Clientes.AsNoTracking();
+            var produtos = _context.Produtos.AsNoTracking();
+
+            var result = from venda in vendas
+                         join cliente in clientes on venda.IdCliente equals cliente.Id
+                         join vendedor in vendedores on venda.IdVendedor equals vendedor.Id
+                         join produto in produtos on venda.IdProduto equals produto.Id
+                         where venda.Data >= dataDe && venda.Data <= dataAte
+                         select new
+                         {
+                             Venda = venda,
+                             Vendedor = vendedor,
+                             Cliente = cliente,
+                             Produto = produto
+                         };
+
+            var lista = new List<VendaModel>();
+
+            foreach (var venda in result)
+            {
+                lista.Add(new VendaModel()
+                {
+                    Id = venda.Venda.Id,
+                    Data = venda.Venda.Data,
+                    Total = venda.Venda.Total,
+                    Quantidade_Produto = venda.Venda.Quantidade_Produto,
+                    NomeVendedor = venda.Vendedor.Nome,
+                    NomeCliente = venda.Cliente.Nome,
+                    NomeProduto = venda.Produto.Nome
+                });
+            }
+
             return lista;
         }
 
@@ -59,7 +99,6 @@ namespace SistemaVendas.Repository
         {
             return _context.Vendas.AsNoTracking().FirstOrDefault(x => x.Id == idVenda);
         }
-
 
         public void Add(VendaModel venda)
         {

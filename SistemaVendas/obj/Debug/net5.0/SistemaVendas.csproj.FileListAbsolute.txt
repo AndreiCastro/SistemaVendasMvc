@@ -406,3 +406,5 @@ C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Venda\Add.cshtml.g.cs
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Venda\Delete.cshtml.g.cs
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Venda\Index.cshtml.g.cs
+C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Relatorio\Index.cshtml.g.cs
+C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Relatorio\VendaPeriodo.cshtml.g.cs

@@ -1,4 +1,5 @@
 ﻿using SistemaVendas.Models;
+using System;
 using System.Collections.Generic;
 
 namespace SistemaVendas.Repository
@@ -8,6 +9,8 @@ namespace SistemaVendas.Repository
         List<VendaModel> GetAllVendas();
 
         VendaModel GetVenda(int idVenda);
+
+        List<VendaModel> GetVendasPorPeriodo(DateTime dataDe, DateTime dataAte);
 
         void Add(VendaModel venda);
 
