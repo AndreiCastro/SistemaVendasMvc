@@ -10,10 +10,12 @@ namespace SistemaVendas.Controllers
     public class RelatorioController : Controller
     {
         private readonly IVendaRepository _vendaRepository;
+        private readonly IGraficoVendaRepository _graficoVendaRepository;
 
-        public RelatorioController(IVendaRepository vendaRepository)
+        public RelatorioController(IVendaRepository vendaRepository, IGraficoVendaRepository graficoVendaRepository)
         {
             _vendaRepository = vendaRepository;
+            _graficoVendaRepository = graficoVendaRepository;
         }
 
         public IActionResult Index()
@@ -44,7 +46,7 @@ namespace SistemaVendas.Controllers
         [HttpGet]
         public async Task<IActionResult> Grafico()
         {
-            var listaProdutosVendidos = await _vendaRepository.GetSomaProdutoVendido();
+            var listaProdutosVendidos = await _graficoVendaRepository.GetSomaProdutoVendido();
             string valores = null, labels = null, cores = null;
             var random = new Random();
 

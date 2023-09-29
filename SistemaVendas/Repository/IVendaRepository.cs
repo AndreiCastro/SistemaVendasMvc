@@ -9,9 +9,7 @@ namespace SistemaVendas.Repository
     {
         Task<List<VendaModel>> GetAllVendas();
 
-        Task<VendaModel> GetVenda(int idVenda);
-
-        Task<List<GraficoVendaModel>> GetSomaProdutoVendido();
+        Task<VendaModel> GetVenda(int idVenda);        
 
         Task<List<VendaModel>> GetVendasPorPeriodo(DateTime dataDe, DateTime dataAte);
 
