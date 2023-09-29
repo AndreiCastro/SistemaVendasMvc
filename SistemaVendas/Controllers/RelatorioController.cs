@@ -20,42 +20,47 @@ namespace SistemaVendas.Controllers
         {
             return View();
         }
-
-        public async Task<IActionResult> VendaPeriodo()
-        {
-            try
-            {
-                var vendas = await _vendaRepository.GetAllVendas();
-                ViewBag.ListaVendas = vendas;
-                return View();
-            }
-            catch 
-            {
-            }
-
-            return View("Error");
-        }
-
+        
         [HttpGet]
-        public async Task<IActionResult> VendaPeriodo(RelatorioModel relatorio) 
+        public async Task<IActionResult> VendaPeriodo(DateTime dataDe, DateTime dataAte) 
         {
             try
             {
                 var vendas = new List<VendaModel>();
-                
-                if (relatorio.DataDe == new DateTime() || relatorio.DataAte == new DateTime())                
-                    vendas = await _vendaRepository.GetAllVendas();                
+                if (dataDe != new DateTime() || dataAte != new DateTime())
+                    vendas = await _vendaRepository.GetVendasPorPeriodo(dataDe, dataAte);
                 else
-                    vendas = await _vendaRepository.GetVendasPorPeriodo(relatorio.DataDe, relatorio.DataAte);
+                    vendas = await _vendaRepository.GetAllVendas();                                    
 
                 ViewBag.ListaVendas = vendas;
                 return View("VendaPeriodo");
             }
             catch 
             {
-            }
-        
+            }        
             return View("Error");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Grafico()
+        {
+            var listaProdutosVendidos = await _vendaRepository.GetSomaProdutoVendido();
+            string valores = null, labels = null, cores = null;
+            var random = new Random();
+
+            foreach (var item in listaProdutosVendidos)
+            {
+                valores += $"{item.QuantidadeVendida},";
+                labels += $"'{item.DescricaoProduto}',";
+                //random nas cores
+                cores += $"'{string.Format("#{0:X6}", random.Next(0x1000000))}',";
+            }
+            ViewBag.Valores = valores;
+            ViewBag.Labels = labels;
+            ViewBag.Cores = cores;
+
+            return View();
         }
     }
 }
+

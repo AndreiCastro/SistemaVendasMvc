@@ -1,6 +1,4 @@
-﻿@model RelatorioModel
-
-@{
+﻿@{
     ViewData["Title"] = "Relatorio Periodo";
 }
 <meta charset="utf-8" />
@@ -15,19 +13,18 @@
 
             <form class="row g-3" asp-controller="Relatorio" asp-action="VendaPeriodo" method="Get">
                 <div class="col-6">
-                    <label for="text" class="col-form-label">@Html.DisplayNameFor(m => m.DataDe)</label>
-                    <input type="date" class="form-control" asp-for="DataDe" />
+                    <label for="text" class="col-form-label">Data de:</label>
+                    <input type="date" class="form-control" name="dataDe" value="dataDe" />
                 </div>
 
                 <div class="col-6">
-                    <label for="text" class="col-form-label">@Html.DisplayNameFor(m => m.DataAte)</label>
-                    <input type="date" class="form-control" asp-for="DataAte" />
+                    <label for="text" class="col-form-label">Data ate:</label>
+                    <input type="date" class="form-control" name="dataAte" value="dataAte" />
                 </div>
                 <br />
                 <br />
                 <br />
                 <br />
-
 
                 <table class="table text-center">
                     <thead>
@@ -64,10 +61,10 @@
                 <br />
                 <br />
 
-                <div class="btn-group" role="group">
+                <div class="col-6">
                     <button type="submit" class="btn btn-info">Pesquisar</button>
+                    <a class="btn btn-secondary" role="button" asp-controller="Relatorio" asp-action="Index">Voltar</a>
                 </div>
-
             </form>
 
         </div>

@@ -11,6 +11,8 @@ namespace SistemaVendas.Repository
 
         Task<VendaModel> GetVenda(int idVenda);
 
+        Task<List<GraficoVendaModel>> GetSomaProdutoVendido();
+
         Task<List<VendaModel>> GetVendasPorPeriodo(DateTime dataDe, DateTime dataAte);
 
         void Add(VendaModel venda);

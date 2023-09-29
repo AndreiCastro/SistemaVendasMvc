@@ -1,0 +1,58 @@
+﻿@* no site chart.js escolhi o template pizza e peguei o código fonte para add aqui *@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+
+            <div class="text-center">
+                <h4 class="display-4">Gráfico</h4>
+
+
+                <div id="canvas-holder" style="width:100%">
+                    <canvas id="chart-area"></canvas>
+                </div>
+
+                <script>
+                    var randomScalingFactor = function () {
+                        return Math.round(Math.random() * 100);
+                    };
+
+                    var config = {
+                        type: 'pie',
+                        data: {
+                            datasets: [{
+                                data: [
+                                    @Html.Raw(ViewBag.Valores)// usou Html.Raw raw pois esta usando no javaScript
+                                ],
+
+                                backgroundColor: [
+                                    @Html.Raw(ViewBag.Cores)
+                                ],
+
+                                label: 'Dataset 1'
+                            }],
+                            labels: [
+                    @Html.Raw(ViewBag.Labels)
+                                                                    ]
+                        },
+                        options: {
+                            responsive: true
+                        }
+                    };
+                    window.onload = function () {
+                        var ctx = document.getElementById('chart-area').getContext('2d');
+                        window.myPie = new Chart(ctx, config);
+                    };
+                </script>
+            </div>
+            <br />
+            <br />
+
+            <div class="col-6">
+                <a class="btn btn-secondary" role="button" asp-controller="Relatorio" asp-action="Index">Voltar</a>
+            </div>
+
+        </div>
+    </div>
+</div>
