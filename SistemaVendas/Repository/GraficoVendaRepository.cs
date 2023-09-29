@@ -30,7 +30,6 @@ namespace SistemaVendas.Repository
                                        Nome = grupo.Key,
                                        Quantidade = grupo.Sum(x => x.Quantidade_Produto)
                                    };
-            //var teste = from pe in vendas select pe;
 
             var lista = new List<GraficoVendaModel>();
             foreach (var item in listaAgrupamento)
