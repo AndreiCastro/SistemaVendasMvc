@@ -1,4 +1,4 @@
-<h1>Sistema de Vendas</h1>
+<h2>Sistema de Vendas</h2>
 <h3>Projeto em MVC</h3>
 <table>
   <tr>
