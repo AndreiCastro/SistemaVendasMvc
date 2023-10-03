@@ -3,7 +3,7 @@
 <table>
   <tr>
     <td>Back-end</td>
-    <td>Framework</td>
+    <td>ORM</td>
     <td>Front-end</td>
   </tr>
   <tr>
