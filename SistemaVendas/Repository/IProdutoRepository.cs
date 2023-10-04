@@ -7,7 +7,8 @@ namespace SistemaVendas.Repository
     public interface IProdutoRepository
     {
         Task<List<ProdutoModel>> GetAllProdutos();
-        Task<ProdutoModel> GetProduto(int idProduto);
+        Task<List<ProdutoModel>> GetAllProdutosComEstoque();
+        Task<ProdutoModel> GetProdutoPorId(int idProduto);
 
         void Add(ProdutoModel produto);
         void Delete(ProdutoModel produto);

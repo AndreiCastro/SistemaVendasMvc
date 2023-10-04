@@ -21,10 +21,10 @@ namespace SistemaVendas.Repository
         public async Task<List<VendaModel>> GetAllVendas()
         {
             /* Exemplo de LINQ com JOIN
-            var vendas = _context.Vendas.AsNoTracking();
-            var clientes = _context.Clientes.AsNoTracking();
-            var vendedores = _context.Vendedores.AsNoTracking();
-            var produtos = _context.Produtos.AsNoTracking();
+            var vendas = _context.Vendas.AsNoTrackingWithIdentityResolution();
+            var clientes = _context.Clientes.AsNoTrackingWithIdentityResolution();
+            var vendedores = _context.Vendedores.AsNoTrackingWithIdentityResolution();
+            var produtos = _context.Produtos.AsNoTrackingWithIdentityResolution();
 
             var result = from venda in vendas
                          join cliente in clientes on venda.IdCliente equals cliente.Id
@@ -66,13 +66,13 @@ namespace SistemaVendas.Repository
                 .ToListAsync();
         }
 
-        public async Task<List<VendaModel>> GetVendasPorPeriodo(DateTime dataDe, DateTime dataAte)
+        public async Task<List<VendaModel>> GetVendaPorPeriodo(DateTime dataDe, DateTime dataAte)
         {
             /* Exemplo de LINQ com JOIN
-            var vendas = _context.Vendas.AsNoTracking();
-            var vendedores = _context.Vendedores.AsNoTracking();
-            var clientes = _context.Clientes.AsNoTracking();
-            var produtos = _context.Produtos.AsNoTracking();
+            var vendas = _context.Vendas.AsNoTrackingWithIdentityResolution();
+            var vendedores = _context.Vendedores.AsNoTrackingWithIdentityResolution();
+            var clientes = _context.Clientes.AsNoTrackingWithIdentityResolution();
+            var produtos = _context.Produtos.AsNoTrackingWithIdentityResolution();
 
             var result = from venda in vendas
                          join cliente in clientes on venda.IdCliente equals cliente.Id
@@ -114,9 +114,9 @@ namespace SistemaVendas.Repository
                 .ToListAsync();
         }        
 
-        public async Task<VendaModel> GetVenda(int idVenda)
+        public async Task<VendaModel> GetVendaPorId(int idVenda)
         {
-            return await _context.Vendas.AsNoTracking().FirstOrDefaultAsync(x => x.Id == idVenda);
+            return await _context.Vendas.AsNoTrackingWithIdentityResolution().FirstOrDefaultAsync(x => x.Id == idVenda);
         }
 
         public void Add(VendaModel venda)

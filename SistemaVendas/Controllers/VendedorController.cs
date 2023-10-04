@@ -59,7 +59,7 @@ namespace SistemaVendas.Controllers
         {
             try
             {
-                var vendedor = await _repository.GetVendedor(idVendedor);
+                var vendedor = await _repository.GetVendedorPorId(idVendedor);
                 if(vendedor != null)
                     return View(vendedor);
                 
@@ -78,7 +78,7 @@ namespace SistemaVendas.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var vendedorDB = await _repository.GetVendedor(vendedor.Id);
+                    var vendedorDB = await _repository.GetVendedorPorId(vendedor.Id);
                     if (vendedorDB != null)
                     {
                         _repository.Update(vendedor);
@@ -100,7 +100,7 @@ namespace SistemaVendas.Controllers
         {
             try
             {
-                var vendedor = await _repository.GetVendedor(idVendedor);
+                var vendedor = await _repository.GetVendedorPorId(idVendedor);
                 return View(vendedor);
             }
             catch 
@@ -113,7 +113,7 @@ namespace SistemaVendas.Controllers
         {
             try
             {
-                var vendedor = await _repository.GetVendedor(idVendedor);
+                var vendedor = await _repository.GetVendedorPorId(idVendedor);
                 if (vendedor != null)
                 {
                     _repository.Delete(vendedor);

@@ -8,7 +8,7 @@ namespace SistemaVendas.Repository
     {
         Task<List<VendedorModel>> GetAllVendedores();
 
-        Task<VendedorModel> GetVendedor(int idVendedor);
+        Task<VendedorModel> GetVendedorPorId(int idVendedor);
 
         void Add(VendedorModel vendedor);
 

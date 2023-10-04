@@ -30,7 +30,7 @@ namespace SistemaVendas.Controllers
             {
                 var vendas = new List<VendaModel>();
                 if (dataDe != new DateTime() || dataAte != new DateTime())
-                    vendas = await _vendaRepository.GetVendasPorPeriodo(dataDe, dataAte);
+                    vendas = await _vendaRepository.GetVendaPorPeriodo(dataDe, dataAte);
                 else
                     vendas = await _vendaRepository.GetAllVendas();                                    
 

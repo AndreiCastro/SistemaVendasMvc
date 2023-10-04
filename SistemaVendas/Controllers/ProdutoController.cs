@@ -60,7 +60,7 @@ namespace SistemaVendas.Controllers
         {
             try
             {
-                var produto = await _repository.GetProduto(idProduto);
+                var produto = await _repository.GetProdutoPorId(idProduto);
                 
                 if (produto != null)
                 {
@@ -82,7 +82,7 @@ namespace SistemaVendas.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var produtoDB = await _repository.GetProduto(produto.Id);
+                    var produtoDB = await _repository.GetProdutoPorId(produto.Id);
                     if (produtoDB != null)
                     {
                         _repository.Update(produto);
@@ -104,7 +104,7 @@ namespace SistemaVendas.Controllers
         {
             try
             {
-                var produto = await _repository.GetProduto(idProduto);
+                var produto = await _repository.GetProdutoPorId(idProduto);
                 return View(produto);
             }
             catch
@@ -117,7 +117,7 @@ namespace SistemaVendas.Controllers
         {
             try
             {
-                var produto = await _repository.GetProduto(idProduto);
+                var produto = await _repository.GetProdutoPorId(idProduto);
                 if(produto != null)
                 {
                     _repository.Delete(produto);

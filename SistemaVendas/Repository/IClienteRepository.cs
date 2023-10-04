@@ -8,7 +8,7 @@ namespace SistemaVendas.Repository
     {
         Task<List<ClienteModel>> GetAllClientes();
 
-        Task<ClienteModel> GetCliente(int id);
+        Task<ClienteModel> GetClientePorId(int id);
 
         void Add(ClienteModel cliente);
 

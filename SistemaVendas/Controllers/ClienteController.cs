@@ -30,7 +30,7 @@ namespace SistemaVendas.Controllers
             }
             catch
             {
-                return View();                
+                return View("Error");                
             }            
         }
 
@@ -38,7 +38,7 @@ namespace SistemaVendas.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            return View();
+            return View("Add");
         }
 
         [HttpPost]
@@ -66,11 +66,11 @@ namespace SistemaVendas.Controllers
         {            
             try
             {
-                var cliente = await _repository.GetCliente(idCliente);
+                var cliente = await _repository.GetClientePorId(idCliente);
                 if(cliente != null)
                     return View(cliente);
 
-                return View();
+                return View("Update");
             }
             catch 
             {
@@ -85,7 +85,7 @@ namespace SistemaVendas.Controllers
             {                
                 if (ModelState.IsValid)
                 {
-                    var clienteRetornoDB = await _repository.GetCliente(cliente.Id);
+                    var clienteRetornoDB = await _repository.GetClientePorId(cliente.Id);
                     if (clienteRetornoDB != null)
                         _repository.Update(cliente);
 
@@ -104,24 +104,22 @@ namespace SistemaVendas.Controllers
         #region Delete
         public async Task<IActionResult> Delete(int idCliente) 
         {
-            var cliente = new ClienteModel();
             try
             {
-                cliente = await _repository.GetCliente(idCliente);
+                var cliente = await _repository.GetClientePorId(idCliente);
+                return View(cliente);
             }
             catch
             {
                 return View("Error");
-            }
-
-            return View(cliente);        
+            }      
         }
 
         public async Task<IActionResult> DeleteConfirm(int idCliente)
         {
             try
             {
-                var cliente = await _repository.GetCliente(idCliente);
+                var cliente = await _repository.GetClientePorId(idCliente);
                 if (cliente != null)
                 {
                     _repository.Delete(cliente);

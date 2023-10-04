@@ -16,7 +16,7 @@ namespace SistemaVendas.Repository
         }
         public async Task<VendedorModel> ValidarLogin(VendedorModel login)
         {
-            return await _context.Vendedores.AsNoTracking().FirstOrDefaultAsync(l => l.Email == login.Email && l.Senha == login.Senha);
+            return await _context.Vendedores.AsNoTrackingWithIdentityResolution().FirstOrDefaultAsync(l => l.Email == login.Email && l.Senha == login.Senha);
         }
     }
 }

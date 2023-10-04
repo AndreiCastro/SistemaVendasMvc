@@ -20,12 +20,12 @@ namespace SistemaVendas.Repository
         #region Selects
         public async Task<List<VendedorModel>> GetAllVendedores()
         {
-            return await _context.Vendedores.AsNoTracking().OrderBy(x => x.Nome).ToListAsync();
+            return await _context.Vendedores.AsNoTrackingWithIdentityResolution().OrderBy(x => x.Nome).ToListAsync();
         }
 
-        public async Task<VendedorModel> GetVendedor(int idVendedor)
+        public async Task<VendedorModel> GetVendedorPorId(int idVendedor)
         {
-            return await _context.Vendedores.AsNoTracking().FirstOrDefaultAsync(x => x.Id == idVendedor);
+            return await _context.Vendedores.AsNoTrackingWithIdentityResolution().FirstOrDefaultAsync(x => x.Id == idVendedor);
         }
         #endregion Selects
 

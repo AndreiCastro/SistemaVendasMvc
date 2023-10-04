@@ -385,9 +385,15 @@ C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Produto\Delete.cshtml.g.cs
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Produto\Index.cshtml.g.cs
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Produto\Update.cshtml.g.cs
+C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Relatorio\Grafico.cshtml.g.cs
+C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Relatorio\Index.cshtml.g.cs
+C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Relatorio\VendaPeriodo.cshtml.g.cs
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
+C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Venda\Add.cshtml.g.cs
+C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Venda\Delete.cshtml.g.cs
+C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Venda\Index.cshtml.g.cs
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Vendedor\Add.cshtml.g.cs
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Vendedor\Delete.cshtml.g.cs
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Vendedor\Index.cshtml.g.cs
@@ -403,9 +409,3 @@ C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\SistemaVendas.pdb
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\SistemaVendas.genruntimeconfig.cache
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\ref\SistemaVendas.dll
-C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Venda\Add.cshtml.g.cs
-C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Venda\Delete.cshtml.g.cs
-C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Venda\Index.cshtml.g.cs
-C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Relatorio\Index.cshtml.g.cs
-C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Relatorio\VendaPeriodo.cshtml.g.cs
-C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Relatorio\Grafico.cshtml.g.cs

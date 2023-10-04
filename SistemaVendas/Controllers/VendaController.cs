@@ -10,16 +10,16 @@ namespace SistemaVendas.Controllers
     public class VendaController : Controller
     {
         private readonly IVendaRepository _repository;
-        private readonly IClienteRepository _repositoryCliente;
-        private readonly IProdutoRepository _repositoryProduto;
+        private readonly IClienteRepository _clienteRepository;
+        private readonly IProdutoRepository _produtoRepository;
         private readonly IHttpContextAccessor _contextAccessor;
 
-        public VendaController(IVendaRepository repository, IClienteRepository repositoryCliente, 
-            IProdutoRepository repositoryProduto, IHttpContextAccessor httpContextAccessor)
+        public VendaController(IVendaRepository repository, IClienteRepository clienteRepository, 
+            IProdutoRepository produtoRepository, IHttpContextAccessor httpContextAccessor)
         {
             _repository = repository;
-            _repositoryCliente = repositoryCliente;
-            _repositoryProduto = repositoryProduto;
+            _clienteRepository = clienteRepository;
+            _produtoRepository = produtoRepository;
             _contextAccessor = httpContextAccessor;
         }
 
@@ -41,9 +41,9 @@ namespace SistemaVendas.Controllers
         {
             try
             {
-                ViewBag.ListaClientes = await _repositoryCliente.GetAllClientes();
-                ViewBag.ListaProdutos = await _repositoryProduto.GetAllProdutos();
-                return View();
+                ViewBag.ListaClientes = await _clienteRepository.GetAllClientes();
+                ViewBag.ListaProdutos = await _produtoRepository.GetAllProdutosComEstoque();
+                return View("Add");
             }
             catch
             {
@@ -58,27 +58,15 @@ namespace SistemaVendas.Controllers
             {
                 if(ModelState.IsValid)
                 {
-                    var produto = await _repositoryProduto.GetProduto(venda.IdProduto);
-                    if(produto != null)
-                    {
-                        produto.QuantidadeEstoque -= venda.Quantidade_Produto;
-                        _repositoryProduto.Update(produto);
-                        if( await _repositoryProduto.SaveChanges())
-                        {
-                            venda.Data = DateTime.Now;
-                            venda.Total = venda.Quantidade_Produto * produto.PrecoUnitario;
-                            venda.IdVendedor = Convert.ToInt32(_contextAccessor.HttpContext.Session.GetString("idUsuarioLogado"));
-
-                            _repository.Add(venda);
-                            if (await _repository.SaveChanges())                            
-                                return RedirectToAction("Index");
-                        }
-                    }
+                    var vendaModel = new VendaModel(_repository, _produtoRepository);
+                    var idUserLogado = Convert.ToInt32(_contextAccessor.HttpContext.Session.GetString("idUsuarioLogado"));
+                    if (await vendaModel.IncluiVendaEAlteraQuantidadeProduto(venda, idUserLogado))
+                        return RedirectToAction("Index");                    
                 }
                 else
                 {
-                    ViewBag.ListaClientes = _repositoryCliente.GetAllClientes();
-                    ViewBag.ListaProdutos = _repositoryProduto.GetAllProdutos();
+                    ViewBag.ListaClientes = _clienteRepository.GetAllClientes();
+                    ViewBag.ListaProdutos = _produtoRepository.GetAllProdutosComEstoque();
                     return View("Add", venda);
                 }
             }
@@ -94,7 +82,7 @@ namespace SistemaVendas.Controllers
         {
             try
             {
-                var venda = await _repository.GetVenda(idVenda);
+                var venda = await _repository.GetVendaPorId(idVenda);
                 return View(venda);
             }
             catch
@@ -107,18 +95,14 @@ namespace SistemaVendas.Controllers
         {
             try
             {
-                var venda = await _repository.GetVenda(idVenda);
-                var produto = await _repositoryProduto.GetProduto(venda.IdProduto);
-                if(produto != null)
+                var venda = await _repository.GetVendaPorId(idVenda);
+                if(venda != null)
                 {
-                    produto.QuantidadeEstoque += venda.Quantidade_Produto;
-                    _repositoryProduto.Update(produto);
-                    if(await _repositoryProduto.SaveChanges())
-                    {
-                        _repository.Delete(venda);
-                        if (await _repository.SaveChanges())
-                            return RedirectToAction("Index");
-                    }
+                    var vendaModel = new VendaModel(_repository, _produtoRepository);
+                    if (await vendaModel.ExcluiVendaEAlteraQuantidadeProduto(venda))
+                        return RedirectToAction("Index");
+                    else
+                        return View("Error");                    
                 }
             }
             catch
