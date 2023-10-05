@@ -42,7 +42,7 @@ namespace TestSistemaVendas
             var result = await _controller.Index() as ViewResult;
 
             //Assert
-            Assert.IsNotNull(clientes);
+            Assert.IsNotNull(result);
             Assert.IsNotNull(result.Model);
             Assert.That(result.Model, Is.EqualTo(clientes));
 
@@ -69,10 +69,10 @@ namespace TestSistemaVendas
         {
             //Arrange já declarado SetUp
             //Act
-            var result = (RedirectToActionResult) await _controller.Post(cliente);
+            var result =  await _controller.Post(cliente) as RedirectToActionResult;
 
             //Assert
-            Assert.IsNotNull(cliente);
+            Assert.IsNotNull(result);
             Assert.IsNotNull(result.ActionName);
             Assert.That(result.ActionName, Is.EqualTo("Index"));
         }
@@ -86,7 +86,7 @@ namespace TestSistemaVendas
             var result = await _controller.Update(cliente.Id) as ViewResult;
 
             //Assert
-            Assert.IsNotNull(cliente);
+            Assert.IsNotNull(result);
             Assert.IsNotNull(result.Model);
             Assert.That(result.Model, Is.EqualTo(cliente));
 
@@ -100,10 +100,10 @@ namespace TestSistemaVendas
         {
             //Arrange já declarado SetUp
             //Act
-            var result = (RedirectToActionResult) await _controller.Put(cliente);
+            var result = await _controller.Put(cliente) as RedirectToActionResult;
 
             //Assert
-            Assert.IsNotNull(cliente);
+            Assert.IsNotNull(result);
             Assert.IsNotNull(result.ActionName);
             Assert.That(result.ActionName, Is.EqualTo("Index"));
         }
@@ -117,7 +117,7 @@ namespace TestSistemaVendas
             var result = await _controller.Delete(cliente.Id) as ViewResult;
 
             //Assert
-            Assert.IsNotNull(cliente);
+            Assert.IsNotNull(result);
             Assert.IsNotNull(result.Model);
             Assert.That(result.Model, Is.EqualTo(cliente));
 
@@ -131,10 +131,10 @@ namespace TestSistemaVendas
         {
             //Arrange já declarado SetUp
             //Act
-            var result = (RedirectToActionResult)await _controller.DeleteConfirm(cliente.Id);
+            var result = await _controller.DeleteConfirm(cliente.Id) as RedirectToActionResult;
 
             //Assert
-            Assert.IsNotNull(cliente);
+            Assert.IsNotNull(result);
             Assert.IsNotNull(result.ActionName);
             Assert.That(result.ActionName, Is.EqualTo("Index"));
         }
