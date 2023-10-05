@@ -4,10 +4,7 @@ using NUnit.Framework;
 using SistemaVendas.Controllers;
 using SistemaVendas.Models;
 using SistemaVendas.Repository;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace TestSistemaVendas
@@ -17,17 +14,17 @@ namespace TestSistemaVendas
     {
         private ClienteController _controller;
         private Mock<IClienteRepository> _repository;
-
         List<ClienteModel> clientes = new List<ClienteModel>();
         ClienteModel cliente = new ClienteModel();
         
         [SetUp]
+        [Category("Steup")]
         public void SetUp()
         {
             _repository = new Mock<IClienteRepository>();
             _controller = new ClienteController(_repository.Object);
 
-            clientes = PopulaClientes();
+            clientes = PopulaAllClientes();
             cliente = PopulaCliente();
 
             //Arrange
@@ -46,6 +43,7 @@ namespace TestSistemaVendas
 
             //Assert
             Assert.IsNotNull(clientes);
+            Assert.IsNotNull(result.Model);
             Assert.That(result.Model, Is.EqualTo(clientes));
 
             var clienteNotNull = result.Model as List<ClienteModel>;
@@ -61,6 +59,7 @@ namespace TestSistemaVendas
             var result = _controller.Add() as ViewResult;
 
             //Assert
+            Assert.IsNotNull(result.ViewName);
             Assert.That(result.ViewName, Is.EqualTo("Add"));
         }
 
@@ -73,6 +72,8 @@ namespace TestSistemaVendas
             var result = (RedirectToActionResult) await _controller.Post(cliente);
 
             //Assert
+            Assert.IsNotNull(cliente);
+            Assert.IsNotNull(result.ActionName);
             Assert.That(result.ActionName, Is.EqualTo("Index"));
         }
 
@@ -86,6 +87,7 @@ namespace TestSistemaVendas
 
             //Assert
             Assert.IsNotNull(cliente);
+            Assert.IsNotNull(result.Model);
             Assert.That(result.Model, Is.EqualTo(cliente));
 
             var clienteNotNull = result.Model as ClienteModel;
@@ -102,6 +104,7 @@ namespace TestSistemaVendas
 
             //Assert
             Assert.IsNotNull(cliente);
+            Assert.IsNotNull(result.ActionName);
             Assert.That(result.ActionName, Is.EqualTo("Index"));
         }
 
@@ -115,6 +118,7 @@ namespace TestSistemaVendas
 
             //Assert
             Assert.IsNotNull(cliente);
+            Assert.IsNotNull(result.Model);
             Assert.That(result.Model, Is.EqualTo(cliente));
 
             var clienteNotNull = result.Model as ClienteModel;
@@ -131,12 +135,13 @@ namespace TestSistemaVendas
 
             //Assert
             Assert.IsNotNull(cliente);
+            Assert.IsNotNull(result.ActionName);
             Assert.That(result.ActionName, Is.EqualTo("Index"));
         }
 
-        public List<ClienteModel> PopulaClientes()
+        private List<ClienteModel> PopulaAllClientes()
         {
-            for (int i = 0; i < 2; i++)
+            for (int i = 1; i < 3; i++)
             {
                 cliente = new ClienteModel()
                 {
@@ -152,7 +157,7 @@ namespace TestSistemaVendas
             return clientes;
         }
 
-        public ClienteModel PopulaCliente()
+        private ClienteModel PopulaCliente()
         {
             for (int i = 0; i < 1; i++)
             {

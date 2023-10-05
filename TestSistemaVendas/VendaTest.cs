@@ -1,14 +1,13 @@
-using NUnit.Framework;
-using Moq;
-using SistemaVendas.Models;
-using SistemaVendas.Controllers;
-using SistemaVendas.Repository;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
-using System;
 using Microsoft.AspNetCore.Mvc;
+using Moq;
+using NUnit.Framework;
+using SistemaVendas.Controllers;
+using SistemaVendas.Models;
+using SistemaVendas.Repository;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using NuGet.Frameworks;
 
 namespace TestSistemaVendas
 {
@@ -20,12 +19,12 @@ namespace TestSistemaVendas
         private Mock<IClienteRepository> _clienteRepository;
         private Mock<IProdutoRepository> _produtoRepository;
         private Mock<IHttpContextAccessor> _contextAccessor;
-
         List<VendaModel> vendas = new List<VendaModel>();
         VendaModel venda = new VendaModel();
         ProdutoModel produto = new ProdutoModel();
 
         [SetUp]
+        [Category("Steup")]
         public void Setup()
         {
             _repository = new Mock<IVendaRepository>();
@@ -33,10 +32,9 @@ namespace TestSistemaVendas
             _produtoRepository = new Mock<IProdutoRepository>();
             _contextAccessor = new Mock<IHttpContextAccessor>();
             _controller = new VendaController(_repository.Object, _clienteRepository.Object, _produtoRepository.Object, _contextAccessor.Object);
-
             vendas = PopulaAllVendas();
             venda = PopulaVenda();
-            produto = PopulaProduto();
+            produto = ProdutoTest.PopulaProduto();
 
             //Arrange
             _repository.Setup(x => x.GetAllVendas()).ReturnsAsync(vendas);
@@ -57,6 +55,7 @@ namespace TestSistemaVendas
 
             //Assert
             Assert.IsNotNull(vendas);
+            Assert.IsNotNull(result.Model);
             Assert.That(result.Model, Is.EqualTo(vendas));
 
             var vendasNotNull = result.Model as List<VendaModel>;
@@ -71,11 +70,12 @@ namespace TestSistemaVendas
             var result = await _controller.Add() as ViewResult;
 
             //Assert
+            Assert.IsNotNull(result.ViewName);
             Assert.That(result.ViewName, Is.EqualTo("Add"));
         }
 
         [Test]
-        [Category("Post")]
+        [Category("Add")]
         public async Task Post()
         {
             //Arrange já declarado SetUp
@@ -84,6 +84,7 @@ namespace TestSistemaVendas
 
             //Assert
             Assert.IsNotNull(venda);
+            Assert.IsNotNull(result.ActionName);
             Assert.That(result.ActionName, Is.EqualTo("Index"));            
         }
 
@@ -97,6 +98,7 @@ namespace TestSistemaVendas
 
             //Assert
             Assert.IsNotNull(venda);
+            Assert.IsNotNull(result.Model);
             Assert.That(result.Model, Is.EqualTo(venda));
 
             var vendaNotNull = result.Model as VendaModel;
@@ -113,6 +115,7 @@ namespace TestSistemaVendas
 
             //Assert
             Assert.IsNotNull(venda);
+            Assert.IsNotNull(result.ActionName);
             Assert.That(result.ActionName, Is.EqualTo("Index"));
         }
 
@@ -150,20 +153,6 @@ namespace TestSistemaVendas
                 };
             }
             return venda;
-        }
-
-        private ProdutoModel PopulaProduto()
-        {
-            return produto = new ProdutoModel()
-            {
-                Id = 1,
-                Nome = "test mock produto",
-                Descricao = "test mock produto descricao",
-                PrecoUnitario = 100.00M,
-                QuantidadeEstoque = 100,
-                UnidadeMedida = "UN",
-                Link_Foto = "teste mock link"
-            };
         }
     }
 }

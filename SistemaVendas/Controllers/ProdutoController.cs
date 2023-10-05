@@ -32,7 +32,7 @@ namespace SistemaVendas.Controllers
         #region Add
         public IActionResult Add()
         {
-            return View();
+            return View("Add");
         }
 
         [HttpPost]
