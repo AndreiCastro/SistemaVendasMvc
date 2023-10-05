@@ -51,41 +51,53 @@ namespace SistemaVendas.Models
 
         public async Task<bool> ExcluiVendaEAlteraQuantidadeProduto(VendaModel venda)
         {
-            var produto = await _produtoRepository.GetProdutoPorId(venda.IdProduto);
-            if (produto != null)
+            try
             {
-                produto.QuantidadeEstoque += venda.Quantidade_Produto;
-                _produtoRepository.Update(produto);
-                if (await _produtoRepository.SaveChanges())
+                var produto = await _produtoRepository.GetProdutoPorId(venda.IdProduto);
+                if (produto != null)
                 {
-                    _repository.Delete(venda);
-                    if (await _repository.SaveChanges())
-                        return true;
-                }
-            }
-            return false;
-        }
-
-        public async Task<bool> IncluiVendaEAlteraQuantidadeProduto(VendaModel venda, int idUserLogado)
-        {
-            var produto = await _produtoRepository.GetProdutoPorId(venda.IdProduto);
-            if (produto != null)
-            {
-                if (produto.QuantidadeEstoque - venda.Quantidade_Produto >= 0)
-                {
-                    produto.QuantidadeEstoque -= venda.Quantidade_Produto;
+                    produto.QuantidadeEstoque += venda.Quantidade_Produto;
                     _produtoRepository.Update(produto);
                     if (await _produtoRepository.SaveChanges())
                     {
-                        venda.Data = DateTime.Now;
-                        venda.Total = venda.Quantidade_Produto * produto.PrecoUnitario;
-                        venda.IdVendedor = idUserLogado;
-                        _repository.Add(venda);
+                        _repository.Delete(venda);
                         if (await _repository.SaveChanges())
                             return true;
                     }
                 }
             }
+            catch
+            {
+            }            
+            return false;
+        }
+
+        public async Task<bool> IncluiVendaEAlteraQuantidadeProduto(VendaModel venda, int idUserLogado)
+        {
+            try
+            {
+                var produto = await _produtoRepository.GetProdutoPorId(venda.IdProduto);
+                if (produto != null)
+                {
+                    if (produto.QuantidadeEstoque - venda.Quantidade_Produto >= 0)
+                    {
+                        produto.QuantidadeEstoque -= venda.Quantidade_Produto;
+                        _produtoRepository.Update(produto);
+                        if (await _produtoRepository.SaveChanges())
+                        {
+                            venda.Data = DateTime.Now;
+                            venda.Total = venda.Quantidade_Produto * produto.PrecoUnitario;
+                            venda.IdVendedor = idUserLogado;
+                            _repository.Add(venda);
+                            if (await _repository.SaveChanges())
+                                return true;
+                        }
+                    }
+                }
+            }
+            catch
+            {                
+            }            
             return false;
         }
     }
