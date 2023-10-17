@@ -1,4 +1,5 @@
-﻿@model ProdutoModel
+﻿@using SistemaVendas.Dtos;
+@model ProdutoDto
 
 @{
     ViewData["Title"] = "Alterar Produto";
@@ -43,7 +44,7 @@
 
                 <div class="col-6">
                     <label for="text" class="col-form-label">@Html.DisplayNameFor(m => m.UnidadeMedida)</label>
-                    <select asp-for="UnidadeMedida" class="form-control" asp-items="@Html.GetEnumSelectList(typeof(SistemaVendas.Enums.Enumeradores.UnidadeMedida))">
+                    <select class="form-control" asp-for="UnidadeMedida" asp-items="@Html.GetEnumSelectList<SistemaVendas.Enums.Enumeradores.UnidadeMedida>()">
                         <options value="@ViewBag.UnidadeMedida" selected>@ViewBag.UnidadeMedida</options>
                     </select>                    
                     <span asp-validation-for="UnidadeMedida" class="text-danger"></span>

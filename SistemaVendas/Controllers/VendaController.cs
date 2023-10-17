@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SistemaVendas.Models;
-using SistemaVendas.Repository;
+using SistemaVendas.Repositorys;
 using System;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
+using AutoMapper;
+using SistemaVendas.Dtos;
+using System.Collections.Generic;
 
 namespace SistemaVendas.Controllers
 {
@@ -13,22 +16,25 @@ namespace SistemaVendas.Controllers
         private readonly IClienteRepository _clienteRepository;
         private readonly IProdutoRepository _produtoRepository;
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly IMapper _mapper;
 
         public VendaController(IVendaRepository repository, IClienteRepository clienteRepository, 
-            IProdutoRepository produtoRepository, IHttpContextAccessor httpContextAccessor)
+            IProdutoRepository produtoRepository, IHttpContextAccessor httpContextAccessor, IMapper mapper)
         {
             _repository = repository;
             _clienteRepository = clienteRepository;
             _produtoRepository = produtoRepository;
             _contextAccessor = httpContextAccessor;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
         {
             try
             {
-                var vendas = await _repository.GetAllVendas();
-                return View(vendas);
+                var vendasModel = await _repository.GetAllVendas();
+                var vendasDto = _mapper.Map<List<VendaDto>>(vendasModel);
+                return View(vendasDto);
             }
             catch 
             {
@@ -41,8 +47,10 @@ namespace SistemaVendas.Controllers
         {
             try
             {
-                ViewBag.ListaClientes = await _clienteRepository.GetAllClientes();
-                ViewBag.ListaProdutos = await _produtoRepository.GetAllProdutosComEstoque();
+                var clientesModel = await _clienteRepository.GetAllClientes();
+                var produtosModel = await _produtoRepository.GetAllProdutosComEstoque();
+                ViewBag.ListaClientes = _mapper.Map<List<ClienteDto>>(clientesModel);
+                ViewBag.ListaProdutos = _mapper.Map<List<ProdutoDto>>(produtosModel);
                 return View("Add");
             }
             catch
@@ -52,22 +60,23 @@ namespace SistemaVendas.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(VendaModel venda)
+        public async Task<IActionResult> Post(VendaDto vendaDto)
         {
             try
             {
                 if(ModelState.IsValid)
                 {
-                    var vendaModel = new VendaModel(_repository, _produtoRepository);
+                    var vendaModel = _mapper.Map<VendaModel>(vendaDto);
+                    var vendaRegraNegocio = new VendaModel(_repository, _produtoRepository);
                     var idUserLogado = Convert.ToInt32(_contextAccessor.HttpContext.Session.GetString("idUsuarioLogado"));
-                    if (await vendaModel.IncluiVendaEAlteraQuantidadeProduto(venda, idUserLogado))
+                    if (await vendaRegraNegocio.IncluiVendaEAlteraQuantidadeProduto(vendaModel, idUserLogado))
                         return RedirectToAction("Index");                    
                 }
                 else
                 {
                     ViewBag.ListaClientes = _clienteRepository.GetAllClientes();
                     ViewBag.ListaProdutos = _produtoRepository.GetAllProdutosComEstoque();
-                    return View("Add", venda);
+                    return View("Add", vendaDto);
                 }
             }
             catch 
@@ -82,8 +91,9 @@ namespace SistemaVendas.Controllers
         {
             try
             {
-                var venda = await _repository.GetVendaPorId(idVenda);
-                return View(venda);
+                var vendaModel = await _repository.GetVendaPorId(idVenda);
+                var vendaDto = _mapper.Map<VendaDto>(vendaModel);
+                return View(vendaDto);
             }
             catch
             {
@@ -95,11 +105,11 @@ namespace SistemaVendas.Controllers
         {
             try
             {
-                var venda = await _repository.GetVendaPorId(idVenda);
-                if(venda != null)
+                var vendaModel = await _repository.GetVendaPorId(idVenda);
+                if(vendaModel != null)
                 {
-                    var vendaModel = new VendaModel(_repository, _produtoRepository);
-                    if (await vendaModel.ExcluiVendaEAlteraQuantidadeProduto(venda))
+                    var vendaRegraNegocio = new VendaModel(_repository, _produtoRepository);
+                    if (await vendaRegraNegocio.ExcluiVendaEAlteraQuantidadeProduto(vendaModel))
                         return RedirectToAction("Index");
                     else
                         return View("Error");                    

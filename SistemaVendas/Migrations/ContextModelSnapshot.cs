@@ -105,7 +105,7 @@ namespace SistemaVendas.Migrations
                     b.Property<int>("IdVendedor")
                         .HasColumnType("int");
 
-                    b.Property<int>("Quantidade_Produto")
+                    b.Property<int>("QuantidadeProduto")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Total")

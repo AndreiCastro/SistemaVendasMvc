@@ -1,4 +1,5 @@
-﻿@model List<VendaModel>
+﻿@using SistemaVendas.Dtos;
+@model List<VendaDto>
 
 @{
     ViewData["Title"] = "Lista Vendas";
@@ -40,7 +41,7 @@
                                 <td>@venda.Vendedor.Nome</td>
                                 <td>@venda.Produto.Nome</td>
                                 <td>@venda.Data.ToString("dd/MM/yyyy")</td>
-                                <td>@venda.Quantidade_Produto</td>                                
+                                <td>@venda.QuantidadeProduto</td>                                
                                 <td>R$ @venda.Total</td>
                                 <td>
                                     <div class="btn-group" role="group">

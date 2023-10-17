@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using SistemaVendas.Dtos;
 using SistemaVendas.Models;
-using SistemaVendas.Repository;
+using SistemaVendas.Repositorys;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SistemaVendas.Controllers
@@ -8,10 +11,12 @@ namespace SistemaVendas.Controllers
     public class VendedorController : Controller
     {
         private readonly IVendedorRepository _repository;
+        private readonly IMapper _mapper;
 
-        public VendedorController(IVendedorRepository repository)
+        public VendedorController(IVendedorRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -19,8 +24,9 @@ namespace SistemaVendas.Controllers
         {
             try
             {
-                var vendedores = await _repository.GetAllVendedores();
-                return View(vendedores);
+                var vendedoresModel = await _repository.GetAllVendedores();
+                var vendedoresDto = _mapper.Map<List<VendedorDto>>(vendedoresModel);
+                return View(vendedoresDto);
             }
             catch 
             {
@@ -35,13 +41,14 @@ namespace SistemaVendas.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(VendedorModel vendedor)
+        public async Task<IActionResult> Post(VendedorDto vendedor)
         {
             try
             {
                 if(ModelState.IsValid)
                 {
-                    _repository.Add(vendedor);
+                    var vendedorModel = _mapper.Map<VendedorModel>(vendedor);
+                    _repository.Add(vendedorModel);
                     if(await _repository.SaveChanges())
                         return RedirectToAction("Index");
                 }
@@ -59,9 +66,12 @@ namespace SistemaVendas.Controllers
         {
             try
             {
-                var vendedor = await _repository.GetVendedorPorId(idVendedor);
-                if(vendedor != null)
-                    return View(vendedor);
+                var vendedorModel = await _repository.GetVendedorPorId(idVendedor);                
+                if (vendedorModel != null)
+                {
+                    var vendedorDto = _mapper.Map<VendedorDto>(vendedorModel);
+                    return View(vendedorDto);
+                }
                 
                 return View();
             }
@@ -72,21 +82,22 @@ namespace SistemaVendas.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Put(VendedorModel vendedor)
+        public async Task<IActionResult> Put(VendedorDto vendedorDto)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var vendedorDB = await _repository.GetVendedorPorId(vendedor.Id);
+                    var vendedorModel = _mapper.Map<VendedorModel>(vendedorDto);
+                    var vendedorDB = await _repository.GetVendedorPorId(vendedorModel.Id);                    
                     if (vendedorDB != null)
                     {
-                        _repository.Update(vendedor);
+                        _repository.Update(vendedorModel);
                         if (await _repository.SaveChanges())
                             return RedirectToAction("Index");
                     }
                 }
-                return View("Update", vendedor);
+                return View("Update", vendedorDto);
             }
             catch 
             {
@@ -100,8 +111,9 @@ namespace SistemaVendas.Controllers
         {
             try
             {
-                var vendedor = await _repository.GetVendedorPorId(idVendedor);
-                return View(vendedor);
+                var vendedorModel = await _repository.GetVendedorPorId(idVendedor);
+                var vendedorDto = _mapper.Map<VendedorDto>(vendedorModel);
+                return View(vendedorDto);
             }
             catch 
             {
@@ -113,10 +125,10 @@ namespace SistemaVendas.Controllers
         {
             try
             {
-                var vendedor = await _repository.GetVendedorPorId(idVendedor);
-                if (vendedor != null)
+                var vendedorModel = await _repository.GetVendedorPorId(idVendedor);
+                if (vendedorModel != null)
                 {
-                    _repository.Delete(vendedor);
+                    _repository.Delete(vendedorModel);
                     if (await _repository.SaveChanges())
                         return RedirectToAction("Index");
                 }                

@@ -8,24 +8,16 @@ namespace SistemaVendas.Models
     public class VendedorModel
     {
         [Key()]
+        [Column("Id")]
         public int Id { get; set; }
         
-        [Required(ErrorMessage = "Nome é obrigatório.")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "{0} deve conter de {2} a {1} caracteres.")]
+        [Column("Nome")]
         public string Nome { get; set; }
 
-        [Required(ErrorMessage = "E-mail é obrigatório.")]
-        [EmailAddress(ErrorMessage = "E-mail com formato inválido.")]
-        [StringLength(100, MinimumLength = 3, ErrorMessage = "{0} deve conter de {2} a {1} caracteres.")]
-        [DisplayName("E-mail")]
+        [Column("Email")]        
         public string Email { get; set; }
-
-        [Required(ErrorMessage = "Senha é obrigatória.")]
-        [StringLength(20, MinimumLength = 3, ErrorMessage = "{0} deve conter de {2} a {1} caracteres.")]
-        public string Senha { get; set; }
-
-        [NotMapped]
-        [Compare("Senha", ErrorMessage = "Senha informada é diferente do campo Senha")]
-        public string ComparaSenha { get; set; }
+                
+        [Column("Senha")]
+        public string Senha { get; set; }                
     }
 }

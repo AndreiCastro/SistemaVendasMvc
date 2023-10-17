@@ -1,17 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SistemaVendas.Data;
-using SistemaVendas.Repository;
+using SistemaVendas.Repositorys;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SistemaVendas
 {
@@ -42,7 +38,9 @@ namespace SistemaVendas
             //Esses services foram para usar o session no projeto            
             services.AddSession();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            
+
+            //Configurando Injeção de Dependencia do automapper para os dtos.
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

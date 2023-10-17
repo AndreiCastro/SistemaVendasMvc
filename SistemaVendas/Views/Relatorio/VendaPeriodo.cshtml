@@ -1,4 +1,7 @@
-﻿@{
+﻿@using SistemaVendas.Dtos;
+@model List<VendaDto>
+
+@{
     ViewData["Title"] = "Relatorio Periodo";
 }
 <meta charset="utf-8" />
@@ -39,9 +42,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if ((List<VendaModel>)ViewBag.ListaVendas != null)
+                        @if (Model != null && Model.Any())
                         {
-                            foreach (var venda in (List<VendaModel>)ViewBag.ListaVendas)
+                            foreach (var venda in Model)
                             {
                                 <tr>
                                     <th scope="col">@venda.Id</th>
@@ -49,7 +52,7 @@
                                     <td>@venda.Vendedor.Nome</td>
                                     <td>@venda.Produto.Nome</td>
                                     <td>@venda.Data.ToString("dd/MM/yyyy")</td>
-                                    <td>@venda.Quantidade_Produto</td>
+                                    <td>@venda.QuantidadeProduto</td>
                                     <td>R$ @venda.Total</td>
                                 </tr>
                             }

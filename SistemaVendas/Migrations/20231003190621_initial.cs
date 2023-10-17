@@ -64,7 +64,7 @@ namespace SistemaVendas.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Data = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Quantidade_Produto = table.Column<int>(type: "int", nullable: false),
+                    QuantidadeProduto = table.Column<int>(type: "int", nullable: false),
                     IdCliente = table.Column<int>(type: "int", nullable: false),
                     IdProduto = table.Column<int>(type: "int", nullable: false),
                     IdVendedor = table.Column<int>(type: "int", nullable: false)

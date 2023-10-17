@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Query.Internal;
-using SistemaVendas.Repository;
+using SistemaVendas.Repositorys;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -24,28 +24,34 @@ namespace SistemaVendas.Models
         }
 
         [Key()]
+        [Column("Id")]
         public int Id { get; set; }
 
         [Required]
+        [Column("Data")]
         public DateTime Data { get; set; }
 
         [Required]
+        [Column("Total")]
         public decimal Total { get; set; }
 
-        [Required(ErrorMessage = "Quantidade é obrigatória.")]
-        [DisplayName("Quantidade do Produto")]
-        public int Quantidade_Produto { get; set; }
+        [Required]
+        [Column("Quantidade_Produto")]
+        public int QuantidadeProduto { get; set; }
 
 
         [ForeignKey("Cliente")]
+        [Column("IdCliente")]
         public int IdCliente { get; set; }
         public virtual ClienteModel Cliente { get; set; }
 
         [ForeignKey("Produto")]
+        [Column("IdProduto")]
         public int IdProduto { get; set; }
         public ProdutoModel Produto { get; set; }
 
         [ForeignKey("Vendedor")]
+        [Column("IdVendedor")]
         public int IdVendedor { get; set; }
         public virtual VendedorModel Vendedor { get; set; }
 
@@ -56,7 +62,7 @@ namespace SistemaVendas.Models
                 var produto = await _produtoRepository.GetProdutoPorId(venda.IdProduto);
                 if (produto != null)
                 {
-                    produto.QuantidadeEstoque += venda.Quantidade_Produto;
+                    produto.QuantidadeEstoque += venda.QuantidadeProduto;
                     _produtoRepository.Update(produto);
                     if (await _produtoRepository.SaveChanges())
                     {
@@ -79,14 +85,14 @@ namespace SistemaVendas.Models
                 var produto = await _produtoRepository.GetProdutoPorId(venda.IdProduto);
                 if (produto != null)
                 {
-                    if (produto.QuantidadeEstoque - venda.Quantidade_Produto >= 0)
+                    if (produto.QuantidadeEstoque - venda.QuantidadeProduto >= 0)
                     {
-                        produto.QuantidadeEstoque -= venda.Quantidade_Produto;
+                        produto.QuantidadeEstoque -= venda.QuantidadeProduto;
                         _produtoRepository.Update(produto);
                         if (await _produtoRepository.SaveChanges())
                         {
                             venda.Data = DateTime.Now;
-                            venda.Total = venda.Quantidade_Produto * produto.PrecoUnitario;
+                            venda.Total = venda.QuantidadeProduto * produto.PrecoUnitario;
                             venda.IdVendedor = idUserLogado;
                             _repository.Add(venda);
                             if (await _repository.SaveChanges())

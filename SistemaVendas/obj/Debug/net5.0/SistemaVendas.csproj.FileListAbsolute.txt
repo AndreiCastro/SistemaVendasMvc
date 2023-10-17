@@ -97,7 +97,6 @@ C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\refs\Microsoft.Extensions.Configuration.KeyPerFile.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\refs\Microsoft.Extensions.Configuration.UserSecrets.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\refs\Microsoft.Extensions.Configuration.Xml.dll
-C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\refs\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\refs\Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\refs\Microsoft.Extensions.Diagnostics.HealthChecks.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\refs\Microsoft.Extensions.FileProviders.Abstractions.dll
@@ -123,8 +122,6 @@ C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\refs\Microsoft.Extensions.ObjectPool.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\refs\Microsoft.Extensions.Options.ConfigurationExtensions.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\refs\Microsoft.Extensions.Options.DataAnnotations.dll
-C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\refs\Microsoft.Extensions.Options.dll
-C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\refs\Microsoft.Extensions.Primitives.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\refs\Microsoft.Extensions.WebEncoders.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\refs\Microsoft.JSInterop.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\refs\Microsoft.Net.Http.Headers.dll
@@ -223,7 +220,6 @@ C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\refs\System.Resources.Reader.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\refs\System.Resources.ResourceManager.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\refs\System.Resources.Writer.dll
-C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\refs\System.Runtime.CompilerServices.Unsafe.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\refs\System.Runtime.CompilerServices.VisualC.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\refs\System.Runtime.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\refs\System.Runtime.Extensions.dll
@@ -289,6 +285,8 @@ C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\refs\WindowsBase.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\SistemaVendas.Views.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\SistemaVendas.Views.pdb
+C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\AutoMapper.dll
+C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\Humanizer.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.Razor.Extensions.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation.dll
@@ -303,7 +301,10 @@ C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Relational.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.SqlServer.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\Microsoft.Extensions.Options.dll
+C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\Microsoft.Identity.Client.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\Microsoft.IdentityModel.JsonWebTokens.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
@@ -315,6 +316,7 @@ C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\System.Runtime.Caching.dll
+C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\cs\Microsoft.CodeAnalysis.resources.dll
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\bin\Debug\net5.0\de\Microsoft.CodeAnalysis.resources.dll
@@ -377,10 +379,8 @@ C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Cliente\Delete.cshtml.g.cs
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Cliente\Index.cshtml.g.cs
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Cliente\Update.cshtml.g.cs
-C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Home\Login.cshtml.g.cs
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Home\Menu.cshtml.g.cs
-C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Produto\Add.cshtml.g.cs
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Produto\Delete.cshtml.g.cs
 C:\Users\andrei\source\repos\MyProjects\SistemaVendasMvc\SistemaVendas\obj\Debug\net5.0\Razor\Views\Produto\Index.cshtml.g.cs

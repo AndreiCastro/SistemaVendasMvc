@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using SistemaVendas.Controllers;
+using SistemaVendas.Dtos;
 using SistemaVendas.Models;
-using SistemaVendas.Repository;
+using SistemaVendas.Repositorys;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,21 +17,34 @@ namespace TestSistemaVendas
     {
         private VendedorController _controller;
         private Mock<IVendedorRepository> _repository;
-        List<VendedorModel> vendedores = new List<VendedorModel>();
-        VendedorModel vendedor = new VendedorModel();
+        private Mock<IMapper> _mapper;
+        private Mock<IHttpContextAccessor> _contextAcessor; 
+
+        List<VendedorModel> vendedoresModel = new List<VendedorModel>();
+        VendedorModel vendedorModel = new VendedorModel();
+        List<VendedorDto> vendedoresDto = new List<VendedorDto>();
+        VendedorDto vendedorDto = new VendedorDto();
 
         [SetUp]
         [Category("SetUp")]
         public void SetUp()
         {
             _repository = new Mock<IVendedorRepository>();
-            _controller = new VendedorController(_repository.Object);
-            vendedores = PopulaAllVendedores();
-            vendedor = PopulaVendedor();
+            _mapper = new Mock<IMapper>();
+            _controller = new VendedorController(_repository.Object, _mapper.Object);
+            _contextAcessor = new Mock<IHttpContextAccessor>();
+            
+            vendedoresModel = PopulaAllVendedoresModel();
+            vendedorModel = PopulaVendedorModel();
+            vendedoresDto = PopulaAllVendedoresDto();
+            vendedorDto = PopulaVendedorDto();
 
             //Arrange
-            _repository.Setup(x => x.GetAllVendedores()).ReturnsAsync(vendedores);
-            _repository.Setup(x => x.GetVendedorPorId(vendedor.Id)).ReturnsAsync(vendedor);
+            _repository.Setup(x => x.GetAllVendedores()).ReturnsAsync(vendedoresModel);
+            _mapper.Setup(x => x.Map<List<VendedorDto>>(vendedoresModel)).Returns(vendedoresDto);
+            _repository.Setup(x => x.GetVendedorPorId(vendedorDto.Id)).ReturnsAsync(vendedorModel);
+            _mapper.Setup(x => x.Map<VendedorDto>(vendedorModel)).Returns(vendedorDto);
+            _mapper.Setup(x => x.Map<VendedorModel>(vendedorDto)).Returns(vendedorModel);
             _repository.Setup(x => x.SaveChanges()).ReturnsAsync(true);
 
         }
@@ -44,10 +60,10 @@ namespace TestSistemaVendas
             //Assert
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Model);
-            Assert.That(result.Model, Is.EqualTo(vendedores));
+            Assert.That(result.Model, Is.EqualTo(vendedoresDto));
 
-            var vendedoresNotNull = result.Model as List<VendedorModel>;
-            Assert.That(vendedoresNotNull.Count, Is.EqualTo(vendedores.Count));
+            var vendedoresModelNotNull = result.Model as List<VendedorDto>;
+            Assert.That(vendedoresModelNotNull.Count, Is.EqualTo(vendedoresModel.Count));
 
         }
 
@@ -70,7 +86,7 @@ namespace TestSistemaVendas
         {
             //Arrange já declarado no SetUp
             //Act
-            var result = await _controller.Post(vendedor) as RedirectToActionResult;
+            var result = await _controller.Post(vendedorDto) as RedirectToActionResult;
 
             //Assert
             Assert.IsNotNull(result);
@@ -84,15 +100,15 @@ namespace TestSistemaVendas
         {
             //Arrange já declarado no SetUp
             //Act
-            var result = await _controller.Update(vendedor.Id) as ViewResult;
+            var result = await _controller.Update(vendedorDto.Id) as ViewResult;
 
             //Assert
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Model);
-            Assert.That(result.Model, Is.EqualTo(vendedor));
+            Assert.That(result.Model, Is.EqualTo(vendedorDto));
 
-            var vendedorNotNull = result.Model as VendedorModel;
-            Assert.That(vendedorNotNull, Is.EqualTo(vendedor));
+            var vendedorNotNull = result.Model as VendedorDto;
+            Assert.That(vendedorNotNull, Is.EqualTo(vendedorDto));
         }
 
         [Test]
@@ -101,7 +117,7 @@ namespace TestSistemaVendas
         {
             //Arrange já declarado no SetUp
             //Act
-            var result = await _controller.Put(vendedor) as RedirectToActionResult;
+            var result = await _controller.Put(vendedorDto) as RedirectToActionResult;
 
             //Assert
             Assert.IsNotNull(result);
@@ -115,15 +131,15 @@ namespace TestSistemaVendas
         {
             //Arrange já declarado no SetUp
             //Act
-            var result = await _controller.Delete(vendedor.Id) as ViewResult;
+            var result = await _controller.Delete(vendedorDto.Id) as ViewResult;
 
             //Assert
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Model);
-            Assert.That(result.Model, Is.EqualTo(vendedor));
+            Assert.That(result.Model, Is.EqualTo(vendedorDto));
 
-            var vendedorNotNull = result.Model as VendedorModel;
-            Assert.That(vendedorNotNull, Is.EqualTo(vendedor));
+            var vendedorNotNull = result.Model as VendedorDto;
+            Assert.That(vendedorNotNull, Is.EqualTo(vendedorDto));
         }
 
         [Test]
@@ -132,7 +148,7 @@ namespace TestSistemaVendas
         {
             //Arrange já declarado no SetUp
             //Act
-            var result = await _controller.DeleteConfirm(vendedor.Id) as RedirectToActionResult;
+            var result = await _controller.DeleteConfirm(vendedorDto.Id) as RedirectToActionResult;
 
             //Assert
             Assert.IsNotNull(result);
@@ -140,33 +156,62 @@ namespace TestSistemaVendas
             Assert.That(result.ActionName, Is.EqualTo("Index"));
         }
 
-        private List<VendedorModel> PopulaAllVendedores()
+        #region PopulaClasses
+        private List<VendedorModel> PopulaAllVendedoresModel()
         {
             for (int i = 1; i < 3; i++)
             {
-                vendedor = new VendedorModel()
+                vendedorModel = new VendedorModel()
                 {
                     Id = i,
-                    Nome = $"Test mock vendedor{i}",
+                    Nome = $"Test mock vendedorModel{i}",
                     Email = "vendeor@teste.com.br",
-                    Senha = $"123456{i}",
-                    ComparaSenha = $"123456{i}"
+                    Senha = $"123456{i}"
                 };
-                vendedores.Add(vendedor);
+                vendedoresModel.Add(vendedorModel);
             }
-            return vendedores;
+            return vendedoresModel;
         }
 
-        private VendedorModel PopulaVendedor()
+        public static VendedorModel PopulaVendedorModel()
         {
             return new VendedorModel()
             {
                 Id = 1,
-                Nome = "Test mock vendedor",
+                Nome = "Test mock vendedorModel",
+                Email = "vendeor@teste.com.br",
+                Senha = "123456"
+            };
+        }
+
+        private List<VendedorDto> PopulaAllVendedoresDto()
+        {
+            for (int i = 1; i < 3; i++)
+            {
+                vendedorDto = new VendedorDto()
+                {
+                    Id = i,
+                    Nome = $"Test mock vendedorModel{i}",
+                    Email = "vendeor@teste.com.br",
+                    Senha = $"123456{i}",
+                    ComparaSenha = $"123456{i}"
+                };
+                vendedoresDto.Add(vendedorDto);
+            }
+            return vendedoresDto;
+        }
+
+        public static VendedorDto PopulaVendedorDto()
+        {
+            return new VendedorDto()
+            {
+                Id = 1,
+                Nome = "Test mock vendedorModel",
                 Email = "vendeor@teste.com.br",
                 Senha = "123456",
                 ComparaSenha = "123456"
             };
         }
+        #endregion PopulaClasses
     }
 }

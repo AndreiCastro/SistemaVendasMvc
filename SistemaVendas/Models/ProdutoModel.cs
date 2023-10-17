@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.InteropServices;
 
 namespace SistemaVendas.Models
@@ -7,31 +8,25 @@ namespace SistemaVendas.Models
     public class ProdutoModel
     {
         [Key()]
+        [Column("Id")]
         public int Id { get; set; }
-
-        [Required(ErrorMessage = "Nome é obrigatório.")]
-        [StringLength(50, MinimumLength = 2, ErrorMessage = "{0} deve conter de {2} a {1} caracteres.")]
+                
+        [Column("Nome")]
         public string Nome{ get; set; }
-
-        [Required(ErrorMessage = "Descrição é obrigatória.")]        
-        [MinLength(3, ErrorMessage = "Descrição deve conter no mínino {1} caracteres.")]
-        [DisplayName("Descrição")]
+                
+        [Column("Descricao")]
         public string Descricao { get; set; }
-
-        [Required(ErrorMessage = "Preço é obrigatório.")]
-        [DisplayName("Preço")]
+                
+        [Column("PrecoUnitario")]
         public decimal PrecoUnitario { get; set; }
-
-        [Required(ErrorMessage = "Quantidade é obrigatória.")]
-        [DisplayName("Quantidade")]
+                
+        [Column("QuantidadeEstoque")]
         public int QuantidadeEstoque { get; set; }
-
-        [Required(ErrorMessage = "Unidade de Medida é obrigatória.")]        
-        [StringLength(3, MinimumLength = 1, ErrorMessage = "{0} deve conter de {2} a {1} caracteres.")]
-        [DisplayName("Unidade Medida")]
+                
+        [Column("UnidadeMedida")]
         public string UnidadeMedida { get; set; }
-
-        [DisplayName("Link Foto")]
+                
+        [Column("Link_foto")]
         public string Link_Foto { get; set; }
     }
 }

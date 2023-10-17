@@ -1,18 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using SistemaVendas.Dtos;
 using SistemaVendas.Models;
-using SistemaVendas.Repository;
+using SistemaVendas.Repositorys;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using static SistemaVendas.Enums.Enumeradores;
 
 namespace SistemaVendas.Controllers
 {
     public class ProdutoController : Controller
     {
         private readonly IProdutoRepository _repository;
+        private readonly IMapper _mapper;
 
-        public ProdutoController(IProdutoRepository repository)
+        public ProdutoController(IProdutoRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -20,8 +26,9 @@ namespace SistemaVendas.Controllers
         {
             try
             {
-                var produtos = await _repository.GetAllProdutos();
-                return View(produtos);
+                var produtosModel = await _repository.GetAllProdutos();
+                var produtosDto = _mapper.Map<List<ProdutoDto>>(produtosModel);
+                return View(produtosDto);
             }
             catch
             {
@@ -36,17 +43,19 @@ namespace SistemaVendas.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(ProdutoModel produto)
+        public async Task<IActionResult> Post(ProdutoDto produtoDto)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _repository.Add(produto);
+                    var produtoModel = _mapper.Map<ProdutoModel>(produtoDto);                    
+                    produtoModel.UnidadeMedida = ((UnidadeMedida)Convert.ToInt32(produtoModel.UnidadeMedida)).ToString();
+                    _repository.Add(produtoModel);
                     if (await _repository.SaveChanges())
                         return RedirectToAction("Index");
                 }
-                return View("Add", produto);
+                return View("Add", produtoDto);
             }
             catch
             {
@@ -60,12 +69,12 @@ namespace SistemaVendas.Controllers
         {
             try
             {
-                var produto = await _repository.GetProdutoPorId(idProduto);
-                
-                if (produto != null)
+                var produtoModel = await _repository.GetProdutoPorId(idProduto);                
+                if (produtoModel != null)
                 {
-                    ViewBag.UnidadeMedida = produto.UnidadeMedida;                 
-                    return View(produto);
+                    var produtoDto = _mapper.Map<ProdutoDto>(produtoModel);
+                    ViewBag.UnidadeMedida = produtoDto.UnidadeMedida;        
+                    return View(produtoDto);
                 }
                 return View();
             }
@@ -76,21 +85,23 @@ namespace SistemaVendas.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Put(ProdutoModel produto)
+        public async Task<IActionResult> Put(ProdutoDto produtoDto)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var produtoDB = await _repository.GetProdutoPorId(produto.Id);
+                    var produtoModel = _mapper.Map<ProdutoModel>(produtoDto);
+                    produtoModel.UnidadeMedida = ((UnidadeMedida)Convert.ToInt32(produtoModel.UnidadeMedida)).ToString();
+                    var produtoDB = await _repository.GetProdutoPorId(produtoModel.Id);
                     if (produtoDB != null)
                     {
-                        _repository.Update(produto);
+                        _repository.Update(produtoModel);
                         if(await _repository.SaveChanges())                        
                             return RedirectToAction("Index");                        
                     }
                 }
-                return View("Update", produto);
+                return View("Update", produtoDto);
             }
             catch 
             {
@@ -104,8 +115,9 @@ namespace SistemaVendas.Controllers
         {
             try
             {
-                var produto = await _repository.GetProdutoPorId(idProduto);
-                return View(produto);
+                var produtoModel = await _repository.GetProdutoPorId(idProduto);
+                var produtoDto = _mapper.Map<ProdutoDto>(produtoModel);
+                return View(produtoDto);
             }
             catch
             {
@@ -117,10 +129,10 @@ namespace SistemaVendas.Controllers
         {
             try
             {
-                var produto = await _repository.GetProdutoPorId(idProduto);
-                if(produto != null)
+                var produtoModel = await _repository.GetProdutoPorId(idProduto);
+                if(produtoModel != null)
                 {
-                    _repository.Delete(produto);
+                    _repository.Delete(produtoModel);
                     if(await _repository.SaveChanges())
                         return RedirectToAction("Index");
                 }

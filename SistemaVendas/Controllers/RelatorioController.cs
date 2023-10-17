@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using SistemaVendas.Dtos;
 using SistemaVendas.Models;
-using SistemaVendas.Repository;
+using SistemaVendas.Repositorys;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,16 +13,18 @@ namespace SistemaVendas.Controllers
     {
         private readonly IVendaRepository _vendaRepository;
         private readonly IGraficoVendaRepository _graficoVendaRepository;
+        private readonly IMapper _mapper;
 
-        public RelatorioController(IVendaRepository vendaRepository, IGraficoVendaRepository graficoVendaRepository)
+        public RelatorioController(IVendaRepository vendaRepository, IGraficoVendaRepository graficoVendaRepository, IMapper mapper)
         {
             _vendaRepository = vendaRepository;
             _graficoVendaRepository = graficoVendaRepository;
+            _mapper = mapper;
         }
 
         public IActionResult Index()
         {
-            return View();
+            return View("Index");
         }
         
         [HttpGet]
@@ -28,14 +32,14 @@ namespace SistemaVendas.Controllers
         {
             try
             {
-                var vendas = new List<VendaModel>();
+                var vendasModel = new List<VendaModel>();
                 if (dataDe != new DateTime() || dataAte != new DateTime())
-                    vendas = await _vendaRepository.GetVendaPorPeriodo(dataDe, dataAte);
+                    vendasModel = await _vendaRepository.GetVendaPorPeriodo(dataDe, dataAte);
                 else
-                    vendas = await _vendaRepository.GetAllVendas();                                    
+                    vendasModel = await _vendaRepository.GetAllVendas();
 
-                ViewBag.ListaVendas = vendas;
-                return View("VendaPeriodo");
+                var vendasDto = _mapper.Map<List<VendaDto>>(vendasModel);                
+                return View(vendasDto);
             }
             catch 
             {
@@ -61,7 +65,7 @@ namespace SistemaVendas.Controllers
             ViewBag.Labels = labels;
             ViewBag.Cores = cores;
 
-            return View();
+            return View("Grafico");
         }
     }
 }

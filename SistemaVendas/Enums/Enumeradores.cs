@@ -1,4 +1,7 @@
-﻿namespace SistemaVendas.Enums
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
+namespace SistemaVendas.Enums
 {
     public class Enumeradores
     {

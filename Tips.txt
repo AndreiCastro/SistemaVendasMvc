@@ -1,0 +1,1 @@
+Para usar o AutoMapper, só baixa-lo no NuGet package -> Pesquisar por AutoMapper

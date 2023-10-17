@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using SistemaVendas.Controllers;
+using SistemaVendas.Dtos;
 using SistemaVendas.Models;
-using SistemaVendas.Repository;
+using SistemaVendas.Repositorys;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,23 +16,34 @@ namespace TestSistemaVendas
     {
         private ClienteController _controller;
         private Mock<IClienteRepository> _repository;
-        List<ClienteModel> clientes = new List<ClienteModel>();
-        ClienteModel cliente = new ClienteModel();
-        
+        private Mock<IMapper> _mapper;
+
+        List<ClienteModel> clientesModel = new List<ClienteModel>();
+        ClienteModel clienteModel = new ClienteModel();
+        List<ClienteDto> clientesDto = new List<ClienteDto>();
+        ClienteDto clienteDto = new ClienteDto();        
+
         [SetUp]
         [Category("Steup")]
         public void SetUp()
         {
             _repository = new Mock<IClienteRepository>();
-            _controller = new ClienteController(_repository.Object);
+            _mapper = new Mock<IMapper>();
+            _controller = new ClienteController(_repository.Object, _mapper.Object);
 
-            clientes = PopulaAllClientes();
-            cliente = PopulaCliente();
+            clientesModel = PopulaAllClientesModel();
+            clienteModel = PopulaClienteModel();
+            clientesDto = PopulaAllClientesDto();
+            clienteDto = PopulaClienteDto();
 
             //Arrange
-            _repository.Setup(x => x.GetAllClientes()).ReturnsAsync(clientes);
+            _repository.Setup(x => x.GetAllClientes()).ReturnsAsync(clientesModel);
+            _mapper.Setup(x => x.Map<List<ClienteDto>>(clientesModel)).Returns(clientesDto);
+            _repository.Setup(x => x.GetClientePorId(clienteDto.Id)).ReturnsAsync(clienteModel);
+            _mapper.Setup(x => x.Map<ClienteDto>(clienteModel)).Returns(clienteDto);
+            _mapper.Setup(x => x.Map<ClienteModel>(clienteDto)).Returns(clienteModel);
             _repository.Setup(x => x.SaveChanges()).ReturnsAsync(true);
-            _repository.Setup(x => x.GetClientePorId(cliente.Id)).ReturnsAsync(cliente);
+                        
         }
 
         [Test]
@@ -44,12 +57,12 @@ namespace TestSistemaVendas
             //Assert
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Model);
-            Assert.That(result.Model, Is.EqualTo(clientes));
+            Assert.That(result.Model, Is.EqualTo(clientesDto));
 
-            var clienteNotNull = result.Model as List<ClienteModel>;
-            Assert.That(clienteNotNull.Count, Is.EqualTo(clientes.Count)); 
+            var clientesNotNull = result.Model as List<ClienteDto>;
+            Assert.That(clientesNotNull.Count, Is.EqualTo(clientesDto.Count)); 
         }
-
+        
         [Test]
         [Category("Add")]
         public void Add()
@@ -69,7 +82,7 @@ namespace TestSistemaVendas
         {
             //Arrange já declarado SetUp
             //Act
-            var result =  await _controller.Post(cliente) as RedirectToActionResult;
+            var result = await _controller.Post(clienteDto) as RedirectToActionResult;
 
             //Assert
             Assert.IsNotNull(result);
@@ -83,15 +96,15 @@ namespace TestSistemaVendas
         {
             //Arrange já declarado SetUp
             //Act
-            var result = await _controller.Update(cliente.Id) as ViewResult;
+            var result = await _controller.Update(clienteDto.Id) as ViewResult;
 
             //Assert
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Model);
-            Assert.That(result.Model, Is.EqualTo(cliente));
+            Assert.That(result.Model, Is.EqualTo(clienteDto));
 
-            var clienteNotNull = result.Model as ClienteModel;
-            Assert.That(clienteNotNull, Is.EqualTo(cliente));
+            var clienteNotNull = result.Model as ClienteDto;
+            Assert.That(clienteNotNull, Is.EqualTo(clienteDto));
         }
 
         [Test]
@@ -100,9 +113,9 @@ namespace TestSistemaVendas
         {
             //Arrange já declarado SetUp
             //Act
-            var result = await _controller.Put(cliente) as RedirectToActionResult;
+            var result = await _controller.Put(clienteDto) as RedirectToActionResult;
 
-            //Assert
+            ////Assert
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.ActionName);
             Assert.That(result.ActionName, Is.EqualTo("Index"));
@@ -114,15 +127,15 @@ namespace TestSistemaVendas
         {
             //Arrange já declarado SetUp
             //Act
-            var result = await _controller.Delete(cliente.Id) as ViewResult;
+            var result = await _controller.Delete(clienteDto.Id) as ViewResult;
 
             //Assert
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Model);
-            Assert.That(result.Model, Is.EqualTo(cliente));
+            Assert.That(result.Model, Is.EqualTo(clienteDto));
 
-            var clienteNotNull = result.Model as ClienteModel;
-            Assert.That(clienteNotNull, Is.EqualTo(cliente));
+            var clienteNotNull = result.Model as ClienteDto;
+            Assert.That(clienteNotNull, Is.EqualTo(clienteDto));
         }
 
         [Test]
@@ -131,19 +144,54 @@ namespace TestSistemaVendas
         {
             //Arrange já declarado SetUp
             //Act
-            var result = await _controller.DeleteConfirm(cliente.Id) as RedirectToActionResult;
+            var result = await _controller.DeleteConfirm(clienteDto.Id) as RedirectToActionResult;
 
             //Assert
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.ActionName);
             Assert.That(result.ActionName, Is.EqualTo("Index"));
         }
+        
 
-        private List<ClienteModel> PopulaAllClientes()
+        #region PopulaClasses
+        private List<ClienteModel> PopulaAllClientesModel()
         {
             for (int i = 1; i < 3; i++)
             {
-                cliente = new ClienteModel()
+                clienteModel = new ClienteModel()
+                {
+                    Id = i,
+                    Nome = $"Test mock com {i}",
+                    CpfCnpj = $"1234567891013{i}",
+                    Email = "teste@mock.com.br",
+                    Senha = $"123456{i}"
+                };
+                clientesModel.Add(clienteModel);
+            }
+            return clientesModel;
+        }
+
+        private ClienteModel PopulaClienteModel()
+        {
+            for (int i = 0; i < 1; i++)
+            {
+                clienteModel = new ClienteModel()
+                {
+                    Id = clientesModel[i].Id,
+                    Nome = clientesModel[i].Nome,
+                    CpfCnpj = clientesModel[i].CpfCnpj,
+                    Email = clientesModel[i].Email,
+                    Senha = clientesModel[i].Senha
+                };
+            }
+            return clienteModel;
+        }
+
+        private List<ClienteDto> PopulaAllClientesDto()
+        {
+            for (int i = 1; i < 3; i++)
+            {
+                clienteDto = new ClienteDto()
                 {
                     Id = i,
                     Nome = $"Test mock com {i}",
@@ -152,26 +200,27 @@ namespace TestSistemaVendas
                     Senha = $"123456{i}",
                     ComparaSenha = $"123456{i}"
                 };
-                clientes.Add(cliente);
+                clientesDto.Add(clienteDto);
             }
-            return clientes;
+            return clientesDto;
         }
 
-        private ClienteModel PopulaCliente()
+        private ClienteDto PopulaClienteDto()
         {
             for (int i = 0; i < 1; i++)
             {
-                cliente = new ClienteModel()
+                clienteDto = new ClienteDto()
                 {
-                    Id = clientes[i].Id,
-                    Nome = clientes[i].Nome,
-                    CpfCnpj = clientes[i].CpfCnpj,
-                    Email = clientes[i].Email,
-                    Senha = clientes[i].Senha,
-                    ComparaSenha = clientes[i].ComparaSenha
+                    Id = clientesDto[i].Id,
+                    Nome = clientesDto[i].Nome,
+                    CpfCnpj = clientesDto[i].CpfCnpj,
+                    Email = clientesDto[i].Email,
+                    Senha = clientesDto[i].Senha,
+                    ComparaSenha = clientesDto[i].ComparaSenha
                 };
             }
-            return cliente;
+            return clienteDto;
         }
+        #endregion PopulaClasses
     }
 }

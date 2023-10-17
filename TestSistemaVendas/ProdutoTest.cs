@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using SistemaVendas.Controllers;
+using SistemaVendas.Dtos;
 using SistemaVendas.Models;
-using SistemaVendas.Repository;
+using SistemaVendas.Repositorys;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,22 +16,32 @@ namespace TestSistemaVendas
     {
         private ProdutoController _controller;
         private Mock<IProdutoRepository> _repository;
-        List<ProdutoModel> produtos = new List<ProdutoModel>();
-        ProdutoModel produto = new ProdutoModel();
+        private Mock<IMapper> _mapper;
+
+        List<ProdutoModel> produtosModel = new List<ProdutoModel>();
+        ProdutoModel produtoModel = new ProdutoModel();
+        List<ProdutoDto> produtosDto = new List<ProdutoDto>();
+        ProdutoDto produtoDto = new ProdutoDto();
 
         [SetUp]
         [Category("SetUp")]
         public void SetUp()
         {
             _repository = new Mock<IProdutoRepository>();
-            _controller = new ProdutoController(_repository.Object);
-            produtos = PopulaAllProdutos();
-            produto = PopulaProduto();
+            _mapper = new Mock<IMapper>();
+            _controller = new ProdutoController(_repository.Object, _mapper.Object);
+            
+            produtosModel = PopulaAllProdutosModel();
+            produtoModel = PopulaProdutoModel();
+            produtosDto = PopulaAllProdutosDto();
+            produtoDto = PopulaProdutoDto();
 
             //Arrange
-            _repository.Setup(x => x.GetAllProdutos()).ReturnsAsync(produtos);
-            _repository.Setup(x => x.Add(produto));
-            _repository.Setup(x => x.GetProdutoPorId(produto.Id)).ReturnsAsync(produto);
+            _repository.Setup(x => x.GetAllProdutos()).ReturnsAsync(produtosModel);
+            _mapper.Setup(x => x.Map<List<ProdutoDto>>(produtosModel)).Returns(produtosDto);
+            _mapper.Setup(x => x.Map<ProdutoDto>(produtoModel)).Returns(produtoDto);
+            _repository.Setup(x => x.GetProdutoPorId(produtoDto.Id)).ReturnsAsync(produtoModel);
+            _mapper.Setup(x => x.Map<ProdutoModel>(produtoDto)).Returns(produtoModel);
             _repository.Setup(x => x.SaveChanges()).ReturnsAsync(true);
         }
 
@@ -44,10 +56,10 @@ namespace TestSistemaVendas
             //Assert
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Model);
-            Assert.That(result.Model, Is.EqualTo(produtos));
+            Assert.That(result.Model, Is.EqualTo(produtosDto));
 
-            var produtosNotNull = result.Model as List<ProdutoModel>;
-            Assert.That(produtosNotNull.Count, Is.EqualTo(produtos.Count));
+            var produtosNotNull = result.Model as List<ProdutoDto>;
+            Assert.That(produtosNotNull.Count, Is.EqualTo(produtosDto.Count));
         }
 
         [Test]
@@ -69,7 +81,7 @@ namespace TestSistemaVendas
         {
             //Arrange já declarado no SetUp
             //Act
-            var result = await _controller.Post(produto) as RedirectToActionResult;
+            var result = await _controller.Post(produtoDto) as RedirectToActionResult;
 
             //Assert
             Assert.IsNotNull(result);
@@ -83,15 +95,15 @@ namespace TestSistemaVendas
         {
             //Arrange já declarado no SetUp
             //Act
-            var result = await _controller.Update(produto.Id) as ViewResult;
+            var result = await _controller.Update(produtoDto.Id) as ViewResult;
 
             //Assert
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Model);
-            Assert.That(result.Model, Is.EqualTo(produto));
+            Assert.That(result.Model, Is.EqualTo(produtoDto));
 
-            var produtoNotNull = result.Model as ProdutoModel;
-            Assert.That(produtoNotNull, Is.EqualTo(produto));
+            var produtoNotNull = result.Model as ProdutoDto;
+            Assert.That(produtoNotNull, Is.EqualTo(produtoDto));
         }
 
         [Test]
@@ -100,7 +112,7 @@ namespace TestSistemaVendas
         {
             //Arrange já declarado no SetUp
             //Act
-            var result = await _controller.Put(produto) as RedirectToActionResult;
+            var result = await _controller.Put(produtoDto) as RedirectToActionResult;
 
             //Assert
             Assert.IsNotNull(result);
@@ -114,15 +126,15 @@ namespace TestSistemaVendas
         {
             //Arrange já declarado no SetUp
             //Act
-            var result = await _controller.Delete(produto.Id) as ViewResult;
+            var result = await _controller.Delete(produtoDto.Id) as ViewResult;
 
             //Assert
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Model);
-            Assert.That(result.Model, Is.EqualTo(produto));
+            Assert.That(result.Model, Is.EqualTo(produtoDto));
 
-            var produtoNotNull = result.Model as ProdutoModel;
-            Assert.That(produtoNotNull, Is.EqualTo(produto));
+            var produtoNotNull = result.Model as ProdutoDto;
+            Assert.That(produtoNotNull, Is.EqualTo(produtoDto));
         }
 
         [Test]
@@ -131,7 +143,7 @@ namespace TestSistemaVendas
         {
             //Arrange já declarado no SetUp
             //Act
-            var result = await _controller.DeleteConfirm(produto.Id) as RedirectToActionResult;
+            var result = await _controller.DeleteConfirm(produtoDto.Id) as RedirectToActionResult;
 
             //Assert
             Assert.IsNotNull(result);
@@ -139,37 +151,72 @@ namespace TestSistemaVendas
             Assert.That(result.ActionName, Is.EqualTo("Index"));
         }
 
-        private List<ProdutoModel> PopulaAllProdutos()
+        #region Popula Classes
+        private List<ProdutoModel> PopulaAllProdutosModel()
         {
             for (int i = 1; i < 3; i++)
             {
-                produto = new ProdutoModel()
+                produtoModel = new ProdutoModel()
                 {
                     Id = i,
-                    Nome = $"Test mock produto {i}",
+                    Nome = $"Test mock produtoModel {i}",
                     Descricao = $"Test mock descricao {i}",
                     PrecoUnitario = 100.00M,
                     QuantidadeEstoque = 100,
-                    UnidadeMedida = "UN",
+                    UnidadeMedida = "10",
                     Link_Foto = "teste mock link"
                 };
-                produtos.Add(produto);
+                produtosModel.Add(produtoModel);
             }
-            return produtos;
+            return produtosModel;
         }
 
-        public static ProdutoModel PopulaProduto()
+        public static ProdutoModel PopulaProdutoModel()
         {
             return new ProdutoModel()
             {
                 Id = 1,
-                Nome = "test mock produto",
-                Descricao = "test mock produto descricao",
+                Nome = "test mock produtoModel",
+                Descricao = "test mock produtoModel descricao",
                 PrecoUnitario = 100.00M,
                 QuantidadeEstoque = 100,
-                UnidadeMedida = "UN",
+                UnidadeMedida = "10",
                 Link_Foto = "teste mock link"
             };
         }
+
+        private List<ProdutoDto> PopulaAllProdutosDto()
+        {
+            for (int i = 1; i < 3; i++)
+            {
+                produtoDto = new ProdutoDto()
+                {
+                    Id = i,
+                    Nome = $"Test mock produtoModel {i}",
+                    Descricao = $"Test mock descricao {i}",
+                    PrecoUnitario = 100.00M,
+                    QuantidadeEstoque = 100,
+                    UnidadeMedida = "10",
+                    Link_Foto = "teste mock link"
+                };
+                produtosDto.Add(produtoDto);
+            }
+            return produtosDto;
+        }
+
+        public static ProdutoDto PopulaProdutoDto()
+        {
+            return new ProdutoDto()
+            {
+                Id = 1,
+                Nome = "test mock produtoModel",
+                Descricao = "test mock produtoModel descricao",
+                PrecoUnitario = 100.00M,
+                QuantidadeEstoque = 100,
+                UnidadeMedida = "10",
+                Link_Foto = "teste mock link"
+            };
+        }
+        #endregion PopulaClasses
     }
 }

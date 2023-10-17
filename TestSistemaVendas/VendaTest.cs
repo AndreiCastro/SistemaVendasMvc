@@ -1,10 +1,12 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using SistemaVendas.Controllers;
+using SistemaVendas.Dtos;
 using SistemaVendas.Models;
-using SistemaVendas.Repository;
+using SistemaVendas.Repositorys;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -19,30 +21,43 @@ namespace TestSistemaVendas
         private Mock<IClienteRepository> _clienteRepository;
         private Mock<IProdutoRepository> _produtoRepository;
         private Mock<IHttpContextAccessor> _contextAccessor;
-        List<VendaModel> vendas = new List<VendaModel>();
-        VendaModel venda = new VendaModel();
-        ProdutoModel produto = new ProdutoModel();
+        private Mock<IMapper> _mapper;
+
+        List<VendaModel> vendasModel = new List<VendaModel>();
+        VendaModel vendaModel = new VendaModel();
+        List<VendaDto> vendasDto = new List<VendaDto>();
+        VendaDto vendaDto = new VendaDto();
+        ProdutoModel produtoModel = new ProdutoModel();
 
         [SetUp]
         [Category("Steup")]
         public void Setup()
         {
             _repository = new Mock<IVendaRepository>();
+            _mapper = new Mock<IMapper>();
             _clienteRepository = new Mock<IClienteRepository>();
             _produtoRepository = new Mock<IProdutoRepository>();
             _contextAccessor = new Mock<IHttpContextAccessor>();
-            _controller = new VendaController(_repository.Object, _clienteRepository.Object, _produtoRepository.Object, _contextAccessor.Object);
-            vendas = PopulaAllVendas();
-            venda = PopulaVenda();
-            produto = ProdutoTest.PopulaProduto();
+            _controller = new VendaController(_repository.Object, _clienteRepository.Object, _produtoRepository.Object, 
+                _contextAccessor.Object, _mapper.Object);
+
+            vendasModel = PopulaAllVendasModel();
+            vendaModel = PopulaVendaModel();
+            vendasDto = PopulaAllVendasDto();
+            vendaDto = PopulaVendaDto();
+            produtoModel = ProdutoTest.PopulaProdutoModel();
 
             //Arrange
-            _repository.Setup(x => x.GetAllVendas()).ReturnsAsync(vendas);
-            _repository.Setup(x => x.GetVendaPorId(venda.Id)).ReturnsAsync(venda);
+            _repository.Setup(x => x.GetAllVendas()).ReturnsAsync(vendasModel);
+            _repository.Setup(x => x.GetVendaPorId(vendaModel.Id)).ReturnsAsync(vendaModel);
             _contextAccessor.Setup(x => x.HttpContext.Session.Equals(1));
-            _produtoRepository.Setup(x => x.GetProdutoPorId(produto.Id)).ReturnsAsync(produto);
+            _produtoRepository.Setup(x => x.GetProdutoPorId(produtoModel.Id)).ReturnsAsync(produtoModel);
             _produtoRepository.Setup(x => x.SaveChanges()).ReturnsAsync(true);
             _repository.Setup(x => x.SaveChanges()).ReturnsAsync(true);
+            _mapper.Setup(x => x.Map<VendaDto>(vendaModel)).Returns(vendaDto);
+            _mapper.Setup(x => x.Map<List<VendaDto>>(vendasModel)).Returns(vendasDto);
+            _mapper.Setup(x => x.Map<VendaModel>(vendaDto)).Returns(vendaModel);
+            
         }
 
         [Test]
@@ -56,10 +71,10 @@ namespace TestSistemaVendas
             //Assert
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Model);
-            Assert.That(result.Model, Is.EqualTo(vendas));
+            Assert.That(result.Model, Is.EqualTo(vendasDto));
 
-            var vendasNotNull = result.Model as List<VendaModel>;
-            Assert.That(vendasNotNull.Count, Is.EqualTo(vendas.Count));
+            var vendasNotNull = result.Model as List<VendaDto>;
+            Assert.That(vendasNotNull.Count, Is.EqualTo(vendasDto.Count));
         }
 
         [Test]
@@ -80,7 +95,7 @@ namespace TestSistemaVendas
         {
             //Arrange já declarado SetUp
             //Act            
-            var result = await _controller.Post(venda) as RedirectToActionResult;
+            var result = await _controller.Post(vendaDto) as RedirectToActionResult;
 
             //Assert
             Assert.IsNotNull(result);
@@ -94,15 +109,15 @@ namespace TestSistemaVendas
         {
             //Arrange já declarado SetUp
             //Act            
-            var result = await _controller.Delete(venda.Id) as ViewResult; 
+            var result = await _controller.Delete(vendaDto.Id) as ViewResult; 
 
             //Assert
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Model);
-            Assert.That(result.Model, Is.EqualTo(venda));
+            Assert.That(result.Model, Is.EqualTo(vendaDto));
 
-            var vendaNotNull = result.Model as VendaModel;
-            Assert.That(vendaNotNull, Is.EqualTo(venda));
+            var vendaNotNull = result.Model as VendaDto;
+            Assert.That(vendaNotNull, Is.EqualTo(vendaDto));
         }
 
         [Test]
@@ -111,7 +126,7 @@ namespace TestSistemaVendas
         {
             //Arrange já declarado SetUp
             //Act            
-            var result = await _controller.DeleteConfirm(venda.Id) as RedirectToActionResult;
+            var result = await _controller.DeleteConfirm(vendaDto.Id) as RedirectToActionResult;
 
             //Assert
             Assert.IsNotNull(result);
@@ -119,40 +134,74 @@ namespace TestSistemaVendas
             Assert.That(result.ActionName, Is.EqualTo("Index"));
         }
 
-        private List<VendaModel> PopulaAllVendas()
+        #region PopulaClasse
+        public static List<VendaModel> PopulaAllVendasModel()
         {
+            var vendasModel = new List<VendaModel>();
             for (int i = 0; i < 2; i++)
             {
-                vendas.Add(new VendaModel()
+                vendasModel.Add(new VendaModel()
                 {
                     Id = i + 1,
                     Data = DateTime.Now,
                     Total = 1000.00M,
-                    Quantidade_Produto = 100 + i,
+                    QuantidadeProduto = 100 + i,
                     IdCliente = i + 1,
                     IdProduto = i + 1,
                     IdVendedor = i + 1
                 });
             }
-            return vendas;
+            return vendasModel;
         }
 
-        private VendaModel PopulaVenda()
+        private VendaModel PopulaVendaModel()
         {
             for (int i = 0; i < 1; i++)
             {
-                venda = new VendaModel()
+                vendaModel = new VendaModel()
                 {
-                    Id = vendas[i].Id,
-                    Data = vendas[i].Data,
-                    Total = vendas[i].Total,
-                    Quantidade_Produto = vendas[i].Quantidade_Produto,
-                    IdCliente = vendas[i].IdCliente,
-                    IdVendedor = vendas[i].IdVendedor,
-                    IdProduto = vendas[i].IdProduto
+                    Id = vendasModel[i].Id,
+                    Data = vendasModel[i].Data,
+                    Total = vendasModel[i].Total,
+                    QuantidadeProduto = vendasModel[i].QuantidadeProduto,
+                    IdCliente = vendasModel[i].IdCliente,
+                    IdVendedor = vendasModel[i].IdVendedor,
+                    IdProduto = vendasModel[i].IdProduto
                 };
             }
-            return venda;
+            return vendaModel;
         }
+
+        public static List<VendaDto> PopulaAllVendasDto()
+        {
+            var vendasDto = new List<VendaDto>();
+            for (int i = 0; i < 2; i++)
+            {
+                vendasDto.Add(new VendaDto()
+                {
+                    Id = i + 1,
+                    Data = DateTime.Now,
+                    Total = 1000.00M,
+                    QuantidadeProduto = 100 + i                    
+                });
+            }
+            return vendasDto;
+        }
+
+        private VendaDto PopulaVendaDto()
+        {
+            for (int i = 0; i < 1; i++)
+            {
+                vendaDto = new VendaDto()
+                {
+                    Id = vendasModel[i].Id,
+                    Data = vendasModel[i].Data,
+                    Total = vendasModel[i].Total,
+                    QuantidadeProduto = vendasModel[i].QuantidadeProduto                    
+                };
+            }
+            return vendaDto;
+        }
+        #endregion PopulaClasses
     }
 }
